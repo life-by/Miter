@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>বিদ্যুত বিল প্রদান - ডিজিটাল সিস্টেম</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ---------- রিসেট ও বেসিক ---------- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
+        body { background: linear-gradient(145deg, #f6f9fc 0%, #e9f0f5 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+
+        /* ---------- মেইন কার্ড ---------- */
+        .app-container { max-width: 1100px; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-radius: 40px; padding: 35px 30px; box-shadow: 0 30px 60px rgba(0, 20, 40, 0.15); border: 1px solid rgba(255, 255, 255, 0.6); transition: all 0.3s ease; }
+
+        /* ---------- হেডার ---------- */
+        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 30px; padding-bottom: 18px; border-bottom: 2px solid rgba(0, 80, 200, 0.15); gap: 15px;}
+        .header h1 { font-size: 26px; font-weight: 700; color: #0b2b4f; display: flex; align-items: center; gap: 12px; }
+        .header h1 i { color: #f5b042; font-size: 30px; }
+        .header-actions { display: flex; gap: 10px; }
+        .header-badge { padding: 8px 18px; border-radius: 60px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; border: none; display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 14px rgba(0,0,0,0.1);}
+        .badge-api { background: #f5b042; color: #0b2b4f; }
+        .badge-api:hover { background: #e09f38; }
+        .badge-db { background: #0b2b4f; color: white; cursor: default; }
+
+        /* ---------- ট্যাব ও প্যানেল ---------- */
+        .tabs { display: flex; gap: 6px; background: rgba(0, 0, 0, 0.04); padding: 6px; border-radius: 60px; margin-bottom: 28px; }
+        .tab-btn { flex: 1; padding: 12px 10px; border: none; background: transparent; border-radius: 40px; font-size: 16px; font-weight: 600; color: #3a5a7a; cursor: pointer; transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .tab-btn.active { background: white; color: #0b2b4f; box-shadow: 0 8px 20px rgba(0, 40, 100, 0.12); }
+        .panel { display: none; animation: fadeSlide 0.3s ease forwards; }
+        .panel.active { display: block; }
+        @keyframes fadeSlide { 0% { opacity: 0; transform: translateY(12px); } 100% { opacity: 1; transform: translateY(0); } }
+
+        /* ---------- ফর্ম ---------- */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: white; padding: 30px; border-radius: 30px; box-shadow: 0 8px 24px rgba(0, 20, 40, 0.04); }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-group label { font-size: 14px; font-weight: 600; color: #1f3a57; display: flex; align-items: center; gap: 8px; }
+        .form-group label i { color: #f5b042; }
+        .form-group input { padding: 14px 18px; border: 1.5px solid #dfe8f0; border-radius: 18px; font-size: 16px; background: #fafcff; transition: 0.2s; outline: none; }
+        .form-group input:focus { border-color: #2a6bb0; background: white; box-shadow: 0 0 0 4px rgba(42, 107, 176, 0.12); }
+        .btn-primary { grid-column: 1 / -1; padding: 15px; background: #0b2b4f; border: none; border-radius: 60px; font-size: 18px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: 0.25s ease; box-shadow: 0 8px 24px rgba(11, 43, 79, 0.25); }
+        .btn-primary:hover { background: #1a3f6a; transform: translateY(-2px); }
+
+        /* ---------- সার্চ ও টেবিল ---------- */
+        .search-section { background: white; border-radius: 30px; padding: 25px; box-shadow: 0 8px 24px rgba(0, 20, 40, 0.04); }
+        .search-box { margin-bottom: 20px; }
+        .search-box input { width: 100%; padding: 14px 20px; border: 1.5px solid #dfe8f0; border-radius: 60px; font-size: 16px; background: #fafcff; outline: none; transition: 0.2s; }
+        .search-box input:focus { border-color: #2a6bb0; box-shadow: 0 0 0 4px rgba(42, 107, 176, 0.08); }
+        .table-wrap { overflow-x: auto; border-radius: 20px; }
+        table { width: 100%; border-collapse: collapse; font-size: 15px; }
+        th { background: #f0f6fd; color: #1f3a57; font-weight: 700; padding: 15px; text-align: left; }
+        td { padding: 15px; border-bottom: 1px solid #eaeef5; color: #1f3a57; }
+        tr:hover td { background: #f8faff; }
+        .empty-row td { text-align: center; color: #8da0b8; padding: 30px 0; }
+
+        /* ---------- মডাল (API Settings) ---------- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-box { background: white; padding: 35px 30px; border-radius: 30px; width: 90%; max-width: 420px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); animation: fadeSlide 0.3s ease; }
+        .modal-box h2 { color: #0b2b4f; margin-bottom: 10px; font-size: 22px; }
+        .modal-box p { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+        .modal-box input { width: 100%; padding: 12px 15px; margin-bottom: 15px; border: 1.5px solid #dfe8f0; border-radius: 12px; outline: none; font-size: 15px; }
+        .modal-box input:focus { border-color: #0b2b4f; }
+        .modal-btns { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-save { flex: 1; padding: 12px; background: #0b2b4f; color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-save:hover { background: #1a3f6a; }
+        .btn-cancel { flex: 1; padding: 12px; background: #e0e6ed; color: #1f3a57; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-cancel:hover { background: #ccd5df; }
+
+        /* ---------- টোস্ট ---------- */
+        .toast-message { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #0b2b4f; color: white; padding: 14px 30px; border-radius: 60px; font-weight: 600; box-shadow: 0 12px 40px rgba(0,0,0,0.2); opacity: 0; transition: 0.4s; z-index: 9999; pointer-events: none; }
+        .toast-message.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
+        .toast-message.success { background: #1d7a4f; }
+        .toast-message.error { background: #b13e4b; }
+
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; padding: 20px; }
+            .header { flex-direction: column; align-items: flex-start; }
+            .header-actions { width: 100%; justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- হেডার -->
+    <div class="header">
+        <h1><i class="fas fa-bolt"></i> বিদ্যুত বিল</h1>
+        <div class="header-actions">
+            <button id="settingsBtn" class="header-badge badge-api" title="GitHub API Connect">
+                <i class="fas fa-cloud-upload-alt"></i> API সেটিং
+            </button>
+            <span class="header-badge badge-db"><i class="fas fa-check-circle"></i> লোকাল ডেটা</span>
+        </div>
+    </div>
+
+    <!-- ট্যাব -->
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="tabForm"><i class="fas fa-pen-to-square"></i> নতুন এন্ট্রি</button>
+        <button class="tab-btn" data-tab="tabSearch"><i class="fas fa-search"></i> খোঁজ ও দেখুন</button>
+    </div>
+
+    <!-- প্যানেল ১: ফর্ম -->
+    <div id="tabForm" class="panel active">
+        <form id="billForm" class="form-grid">
+            <div class="form-group">
+                <label><i class="fas fa-id-card"></i> মিটার কার্ড নম্বর</label>
+                <input type="text" id="meterCard" placeholder="যেমন: MET-2025-001" required />
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> গ্রাহকের নাম</label>
+                <input type="text" id="customerName" placeholder="পূর্ণ নাম" required />
+            </div>
+            <div class="form-group full-width">
+                <label><i class="fas fa-phone"></i> ফোন নম্বর</label>
+                <input type="tel" id="phoneNumber" placeholder="০১৭XX-XXXXXX বা 017XX-XXXXXX" required />
+            </div>
+            <button type="submit" class="btn-primary"><i class="fas fa-save"></i> সংরক্ষণ করুন</button>
+        </form>
+    </div>
+
+    <!-- প্যানেল ২: সার্চ -->
+    <div id="tabSearch" class="panel">
+        <div class="search-section">
+            <div class="search-box">
+                <!-- লাইভ সার্চ ইনপুট -->
+                <input type="text" id="searchInput" placeholder="মিটার কার্ড, নাম বা ফোন দিয়ে খোঁজুন (Live Search)..." />
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>মিটার কার্ড</th>
+                            <th>নাম</th>
+                            <th>ফোন</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- API সেটিংস মডাল -->
+<div id="apiModal" class="modal-overlay">
+    <div class="modal-box">
+        <h2><i class="fab fa-github"></i> GitHub Backup Setup</h2>
+        <p>আপনার গিটহাবের তথ্য দিন। এটি <b>সম্পূর্ণ নিরাপদ</b> এবং শুধু আপনার ডিভাইসের স্টোরেজেই সেভ থাকবে।</p>
+        
+        <label>GitHub Username</label>
+        <input type="text" id="ghUsername" placeholder="যেমন: john-doe" />
+        
+        <label>Repository Name</label>
+        <input type="text" id="ghRepo" placeholder="যেমন: electricity-bill-db" />
+        
+        <label>Personal Access Token</label>
+        <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxx" />
+        
+        <div class="modal-btns">
+            <button id="closeApiBtn" class="btn-cancel">বন্ধ করুন</button>
+            <button id="saveApiBtn" class="btn-save">সেভ করুন</button>
+        </div>
+    </div>
+</div>
+
+<!-- টোস্ট মেসেজ -->
+<div id="toast" class="toast-message"></div>
+
+<!-- ডেটা লেয়ার -->
+<script src="data.js"></script>
+
+<!-- মূল লজিক -->
+<script>
+    (function() {
+        'use strict';
+
+        // ---------- DOM Elements ----------
+        const form = document.getElementById('billForm');
+        const meterInput = document.getElementById('meterCard');
+        const nameInput = document.getElementById('customerName');
+        const phoneInput = document.getElementById('phoneNumber');
+        const searchInput = document.getElementById('searchInput');
+        const tbody = document.getElementById('dataTableBody');
+        const toast = document.getElementById('toast');
+
+        // ---------- Toast Function ----------
+        function showToast(message, type = 'success', duration = 3000) {
+            toast.textContent = message;
+            toast.className = 'toast-message ' + type;
+            void toast.offsetWidth; // Reflow
+            toast.classList.add('show');
+            clearTimeout(toast._hideTimer);
+            toast._hideTimer = setTimeout(() => toast.classList.remove('show'), duration);
+        }
+
+        // ---------- XSS Prevention ----------
+        function escapeHtml(text) {
+            if (!text) return '';
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return String(text).replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // ---------- বাংলা থেকে ইংরেজি সংখ্যা রূপান্তর ----------
+        function convertToEnglishDigits(str) {
+            const banglaDigits = {'০':'0', '১':'1', '২':'2', '৩':'3', '৪':'4', '৫':'5', '৬':'6', '৭':'7', '৮':'8', '৯':'9'};
+            return str.replace(/[০-৯]/g, match => banglaDigits[match]);
+        }
+
+        // ---------- Render Table ----------
+        function renderTable(filter = '') {
+            if (typeof dataStore === 'undefined') return;
+            let items = dataStore.getAll();
+            const term = filter.trim().toLowerCase();
+            
+            if (term !== '') {
+                items = items.filter(item => 
+                    item.meter.toLowerCase().includes(term) ||
+                    item.name.toLowerCase().includes(term) ||
+                    item.phone.includes(term)
+                );
+            }
+
+            if (items.length === 0) {
+                tbody.innerHTML = `<tr class="empty-row"><td colspan="4">🔍 কোনো রেকর্ড পাওয়া যায়নি</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = items.map((item, idx) => `
+                <tr>
+                    <td><strong>${idx + 1}</strong></td>
+                    <td><strong>${escapeHtml(item.meter)}</strong></td>
+                    <td>${escapeHtml(item.name)}</td>
+                    <td>${escapeHtml(item.phone)}</td>
+                </tr>
+            `).join('');
+        }
+
+        // ---------- GitHub API Configuration (Local) ----------
+        const apiModal = document.getElementById('apiModal');
+        document.getElementById('settingsBtn').addEventListener('click', () => {
+            const config = JSON.parse(localStorage.getItem('gh_api_config')) || { user: '', repo: '', token: '' };
+            document.getElementById('ghUsername').value = config.user;
+            document.getElementById('ghRepo').value = config.repo;
+            document.getElementById('ghToken').value = config.token;
+            apiModal.style.display = 'flex';
+        });
+
+        document.getElementById('closeApiBtn').addEventListener('click', () => apiModal.style.display = 'none');
+        
+        document.getElementById('saveApiBtn').addEventListener('click', () => {
+            const user = document.getElementById('ghUsername').value.trim();
+            const repo = document.getElementById('ghRepo').value.trim();
+            const token = document.getElementById('ghToken').value.trim();
+            localStorage.setItem('gh_api_config', JSON.stringify({ user, repo, token }));
+            showToast('✅ API সেটিংস ডিভাইসে সেভ হয়েছে!', 'success');
+            apiModal.style.display = 'none';
+        });
+
+        // ---------- Push to GitHub Function ----------
+        async function pushToGitHub(newRecord) {
+            const config = JSON.parse(localStorage.getItem('gh_api_config'));
+            if (!config || !config.token || !config.user || !config.repo) return; // API সেটআপ না থাকলে কিছু করবে না
+
+            const apiUrl = `https://api.github.com/repos/${config.user}/${config.repo}/contents/data.json`;
+
+            try {
+                showToast('☁️ গিটহাবে ব্যাকআপ হচ্ছে...', 'success', 2000);
+                const getRes = await fetch(apiUrl, { headers: { 'Authorization': `token ${config.token}` } });
+                let fileData = await getRes.json();
+                
+                let currentData = [];
+                if (getRes.ok && fileData.content) {
+                    currentData = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
+                }
+                
+                currentData.push(newRecord);
+                const newContentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentData, null, 2))));
+
+                const putRes = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `token ${config.token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: `Added bill record for ${newRecord.name}`,
+                        content: newContentBase64,
+                        sha: fileData.sha || undefined
+                    })
+                });
+
+                if (putRes.ok) showToast('☁️ ডেটা গিটহাবে লাইভ ব্যাকআপ হয়েছে!', 'success');
+                else showToast('❌ গিটহাব এপিআই এরর!', 'error');
+            } catch (error) {
+                console.error(error);
+                showToast('❌ ইন্টারনেট বা এপিআই কানেকশন সমস্যা!', 'error');
+            }
+        }
+
+        // ---------- Form Submit Handler ----------
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const meter = meterInput.value.trim();
+            const name = nameInput.value.trim();
+            const rawPhone = phoneInput.value.trim();
+
+            if (meter.length < 3) { showToast('মিটার কার্ড নম্বর কমপক্ষে ৩ অক্ষর হতে হবে', 'error'); return; }
+
+            // ফোন নম্বর ভ্যালিডেশন (বাংলা ও ইংরেজি সাপোর্ট)
+            const cleanPhone = rawPhone.replace(/[-\s]/g, '');
+            const englishPhone = convertToEnglishDigits(cleanPhone);
+            const phoneRegex = /^(?:\+?88)?01[3-9]\d{8}$/;
+            
+            if (!phoneRegex.test(englishPhone)) {
+                showToast('সঠিক বাংলাদেশি ফোন নম্বর দিন (যেমন: 017... বা ০১৭...)', 'error');
+                return;
+            }
+
+            const newItem = { meter, name, phone: rawPhone };
+            
+            // data.js এ সেভ করা
+            const dbResult = dataStore.add(newItem);
+            if (!dbResult.success) {
+                showToast(dbResult.message, 'error'); // ডুপ্লিকেট হলে এরর দেখাবে
+                return;
+            }
+
+            form.reset();
+            showToast(`✅ "${name}"-এর তথ্য লোকালি সেভ হয়েছে!`, 'success');
+            
+            // GitHub এ ব্যাকআপ পাঠানো (ব্যাকগ্রাউন্ডে)
+            pushToGitHub(newItem);
+
+            if (document.getElementById('tabSearch').classList.contains('active')) {
+                renderTable(searchInput.value);
+            }
+        });
+
+        // ---------- Live Search (টাইপ করার সাথে সাথে) ----------
+        searchInput.addEventListener('input', () => renderTable(searchInput.value));
+
+        // ---------- Tab Switch Logic ----------
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                
+                this.classList.add('active');
+                document.getElementById(this.dataset.tab).classList.add('active');
+
+                if (this.dataset.tab === 'tabSearch') renderTable(searchInput.value);
+            });
+        });
+
+    })();
+</script>
+
+</body>
+</html>
