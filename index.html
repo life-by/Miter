@@ -4,165 +4,159 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>বিদ্যুত বিল প্রদান - ক্লাউড সিস্টেম</title>
-    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         /* ---------- রিসেট ও বেসিক ---------- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
-        body { background: linear-gradient(145deg, #f6f9fc 0%, #e9f0f5 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background: linear-gradient(145deg, #f6f9fc 0%, #e9f0f5 100%); min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; }
 
-        /* ---------- মেইন কার্ড ---------- */
-        .app-container { max-width: 1100px; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-radius: 40px; padding: 35px 30px; box-shadow: 0 30px 60px rgba(0, 20, 40, 0.15); border: 1px solid rgba(255, 255, 255, 0.6); transition: all 0.3s ease; }
+        .app-container { max-width: 1100px; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-radius: 40px; padding: 35px 30px; box-shadow: 0 30px 60px rgba(0, 20, 40, 0.15); }
 
         /* ---------- হেডার ---------- */
-        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 30px; padding-bottom: 18px; border-bottom: 2px solid rgba(0, 80, 200, 0.15); gap: 15px;}
+        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid rgba(0, 80, 200, 0.1); gap: 15px;}
         .header h1 { font-size: 26px; font-weight: 700; color: #0b2b4f; display: flex; align-items: center; gap: 12px; }
-        .header h1 i { color: #f5b042; font-size: 30px; }
+        .header h1 i { color: #f5b042; }
         .header-actions { display: flex; gap: 10px; }
-        .header-badge { padding: 8px 18px; border-radius: 60px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; border: none; display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 14px rgba(0,0,0,0.1);}
+        .header-badge { padding: 8px 18px; border-radius: 60px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; border: none; display: flex; align-items: center; gap: 8px;}
         .badge-api { background: #f5b042; color: #0b2b4f; }
-        .badge-api:hover { background: #e09f38; }
         .badge-db { background: #b13e4b; color: white; cursor: default; }
 
+        /* ---------- ড্যাশবোর্ড স্ট্যাটস (New) ---------- */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; border-left: 5px solid #0b2b4f;}
+        .stat-icon { width: 50px; height: 50px; border-radius: 50%; background: #f0f6fd; color: #2a6bb0; display: flex; justify-content: center; align-items: center; font-size: 20px; }
+        .stat-info h3 { font-size: 22px; color: #0b2b4f; }
+        .stat-info p { font-size: 13px; color: #666; font-weight: 600; }
+
         /* ---------- ট্যাব ও প্যানেল ---------- */
-        .tabs { display: flex; gap: 6px; background: rgba(0, 0, 0, 0.04); padding: 6px; border-radius: 60px; margin-bottom: 28px; }
-        .tab-btn { flex: 1; padding: 12px 10px; border: none; background: transparent; border-radius: 40px; font-size: 16px; font-weight: 600; color: #3a5a7a; cursor: pointer; transition: all 0.25s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .tab-btn.active { background: white; color: #0b2b4f; box-shadow: 0 8px 20px rgba(0, 40, 100, 0.12); }
+        .tabs { display: flex; gap: 6px; background: rgba(0, 0, 0, 0.04); padding: 6px; border-radius: 60px; margin-bottom: 25px; }
+        .tab-btn { flex: 1; padding: 12px; border: none; background: transparent; border-radius: 40px; font-size: 16px; font-weight: 600; color: #3a5a7a; cursor: pointer; transition: 0.25s; }
+        .tab-btn.active { background: white; color: #0b2b4f; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
         .panel { display: none; animation: fadeSlide 0.3s ease forwards; }
         .panel.active { display: block; }
-        @keyframes fadeSlide { 0% { opacity: 0; transform: translateY(12px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeSlide { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
 
         /* ---------- ফর্ম ---------- */
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: white; padding: 30px; border-radius: 30px; box-shadow: 0 8px 24px rgba(0, 20, 40, 0.04); }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: white; padding: 30px; border-radius: 30px; }
         .form-group { display: flex; flex-direction: column; gap: 6px; }
         .form-group.full-width { grid-column: 1 / -1; }
-        .form-group label { font-size: 14px; font-weight: 600; color: #1f3a57; display: flex; align-items: center; gap: 8px; }
-        .form-group label i { color: #f5b042; }
-        .form-group input { padding: 14px 18px; border: 1.5px solid #dfe8f0; border-radius: 18px; font-size: 16px; background: #fafcff; transition: 0.2s; outline: none; }
-        .form-group input:focus { border-color: #2a6bb0; background: white; box-shadow: 0 0 0 4px rgba(42, 107, 176, 0.12); }
-        .btn-primary { grid-column: 1 / -1; padding: 15px; background: #0b2b4f; border: none; border-radius: 60px; font-size: 18px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: 0.25s ease; box-shadow: 0 8px 24px rgba(11, 43, 79, 0.25); }
-        .btn-primary:hover { background: #1a3f6a; transform: translateY(-2px); }
-        .btn-primary:disabled { background: #8da0b8; cursor: not-allowed; transform: none; box-shadow: none;}
+        .form-group label { font-size: 14px; font-weight: 600; color: #1f3a57; }
+        .form-group input { padding: 14px; border: 1.5px solid #dfe8f0; border-radius: 15px; outline: none; }
+        .btn-primary { grid-column: 1 / -1; padding: 15px; background: #0b2b4f; border: none; border-radius: 60px; font-size: 18px; font-weight: bold; color: white; cursor: pointer; transition: 0.2s; }
+        .btn-primary:disabled { background: #8da0b8; cursor: not-allowed; }
 
-        /* ---------- সার্চ ও টেবিল ---------- */
-        .search-section { background: white; border-radius: 30px; padding: 25px; box-shadow: 0 8px 24px rgba(0, 20, 40, 0.04); }
+        /* ---------- টেবিল ও একশন বাটন (New) ---------- */
         .search-box { margin-bottom: 20px; }
-        .search-box input { width: 100%; padding: 14px 20px; border: 1.5px solid #dfe8f0; border-radius: 60px; font-size: 16px; background: #fafcff; outline: none; transition: 0.2s; }
-        .search-box input:focus { border-color: #2a6bb0; box-shadow: 0 0 0 4px rgba(42, 107, 176, 0.08); }
-        .table-wrap { overflow-x: auto; border-radius: 20px; }
-        table { width: 100%; border-collapse: collapse; font-size: 15px; }
-        th { background: #f0f6fd; color: #1f3a57; font-weight: 700; padding: 15px; text-align: left; }
-        td { padding: 15px; border-bottom: 1px solid #eaeef5; color: #1f3a57; }
-        tr:hover td { background: #f8faff; }
-        .empty-row td { text-align: center; color: #8da0b8; padding: 30px 0; }
+        .search-box input { width: 100%; padding: 14px; border: 1.5px solid #dfe8f0; border-radius: 60px; outline: none; }
+        .table-wrap { overflow-x: auto; border-radius: 20px; background: white; padding: 10px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: #f0f6fd; padding: 15px; color: #1f3a57; }
+        td { padding: 15px; border-bottom: 1px solid #eaeef5; }
+        .action-btns { display: flex; gap: 8px; }
+        .btn-icon { width: 35px; height: 35px; border-radius: 10px; border: none; color: white; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center;}
+        .btn-edit { background: #2a6bb0; }
+        .btn-delete { background: #b13e4b; }
+        .btn-icon:hover { transform: scale(1.05); }
 
-        /* ---------- মডাল (API Settings) ---------- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-box { background: white; padding: 35px 30px; border-radius: 30px; width: 90%; max-width: 420px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); animation: fadeSlide 0.3s ease; }
-        .modal-box h2 { color: #0b2b4f; margin-bottom: 10px; font-size: 22px; }
-        .modal-box p { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.5; }
-        .modal-box input { width: 100%; padding: 12px 15px; margin-bottom: 15px; border: 1.5px solid #dfe8f0; border-radius: 12px; outline: none; font-size: 15px; }
-        .modal-box input:focus { border-color: #0b2b4f; }
-        .modal-btns { display: flex; gap: 10px; margin-top: 10px; }
-        .btn-save { flex: 1; padding: 12px; background: #0b2b4f; color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        .btn-save:hover { background: #1a3f6a; }
-        .btn-cancel { flex: 1; padding: 12px; background: #e0e6ed; color: #1f3a57; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        .btn-cancel:hover { background: #ccd5df; }
+        /* ---------- মডাল ---------- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-box { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; }
+        .modal-box input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 10px; }
+        .modal-btns { display: flex; gap: 10px; }
+        .modal-btns button { flex: 1; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .btn-save { background: #0b2b4f; color: white; }
+        .btn-cancel { background: #ccc; color: #333; }
 
         /* ---------- টোস্ট ---------- */
-        .toast-message { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #0b2b4f; color: white; padding: 14px 30px; border-radius: 60px; font-weight: 600; box-shadow: 0 12px 40px rgba(0,0,0,0.2); opacity: 0; transition: 0.4s; z-index: 9999; pointer-events: none; }
+        .toast-message { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #0b2b4f; color: white; padding: 14px 30px; border-radius: 60px; opacity: 0; transition: 0.4s; z-index: 9999; }
         .toast-message.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
         .toast-message.success { background: #1d7a4f; }
         .toast-message.error { background: #b13e4b; }
-        .toast-message.warning { background: #f5b042; color: #0b2b4f; }
-
-        @media (max-width: 600px) {
-            .form-grid { grid-template-columns: 1fr; padding: 20px; }
-            .header { flex-direction: column; align-items: flex-start; }
-            .header-actions { width: 100%; justify-content: space-between; }
-        }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <!-- হেডার -->
     <div class="header">
-        <h1><i class="fas fa-bolt"></i> বিদ্যুত বিল</h1>
+        <h1><i class="fas fa-bolt"></i> বিদ্যুত বিল ডাটাবেস</h1>
         <div class="header-actions">
-            <button id="settingsBtn" class="header-badge badge-api" title="GitHub API Connect">
-                <i class="fas fa-cog"></i> API সেটিং
-            </button>
+            <button id="settingsBtn" class="header-badge badge-api"><i class="fas fa-cog"></i> API সেটিং</button>
             <span class="header-badge badge-db" id="dbStatus"><i class="fas fa-times-circle"></i> অফলাইন</span>
         </div>
     </div>
 
-    <!-- ট্যাব -->
-    <div class="tabs">
-        <button class="tab-btn active" data-tab="tabForm"><i class="fas fa-pen-to-square"></i> নতুন এন্ট্রি</button>
-        <button class="tab-btn" data-tab="tabSearch"><i class="fas fa-cloud-download-alt"></i> ডাটাবেস দেখুন</button>
+    <!-- ড্যাশবোর্ড স্ট্যাটস (New) -->
+    <div class="stats-grid" id="dashboardStats" style="display: none;">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <div class="stat-info">
+                <h3 id="totalUsers">0</h3>
+                <p>মোট গ্রাহক</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background:#eafaf1; color:#1d7a4f;"><i class="fas fa-user-plus"></i></div>
+            <div class="stat-info">
+                <h3 id="latestUser" style="font-size:16px; margin-top:5px;">নেই</h3>
+                <p>সর্বশেষ এন্ট্রি</p>
+            </div>
+        </div>
     </div>
 
-    <!-- প্যানেল ১: ফর্ম -->
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="tabForm"><i class="fas fa-plus-circle"></i> নতুন এন্ট্রি</button>
+        <button class="tab-btn" data-tab="tabSearch"><i class="fas fa-database"></i> ডাটাবেস দেখুন</button>
+    </div>
+
+    <!-- ফর্ম প্যানেল -->
     <div id="tabForm" class="panel active">
         <form id="billForm" class="form-grid">
             <div class="form-group">
-                <label><i class="fas fa-id-card"></i> মিটার কার্ড নম্বর</label>
-                <input type="text" id="meterCard" placeholder="যেমন: MET-2025-001" required />
+                <label>মিটার কার্ড নম্বর</label>
+                <input type="text" id="meterCard" placeholder="MET-001" required />
             </div>
             <div class="form-group">
-                <label><i class="fas fa-user"></i> গ্রাহকের নাম</label>
-                <input type="text" id="customerName" placeholder="পূর্ণ নাম" required />
+                <label>গ্রাহকের নাম</label>
+                <input type="text" id="customerName" required />
             </div>
             <div class="form-group full-width">
-                <label><i class="fas fa-phone"></i> ফোন নম্বর</label>
-                <input type="tel" id="phoneNumber" placeholder="০১৭XX-XXXXXX বা 017XX-XXXXXX" required />
+                <label>ফোন নম্বর</label>
+                <input type="tel" id="phoneNumber" placeholder="017XXXXXXXX" required />
             </div>
-            <button type="submit" id="submitBtn" class="btn-primary"><i class="fas fa-cloud-upload-alt"></i> ক্লাউডে সেভ করুন</button>
+            <button type="submit" id="submitBtn" class="btn-primary">ক্লাউডে সেভ করুন</button>
         </form>
     </div>
 
-    <!-- প্যানেল ২: সার্চ -->
+    <!-- ডাটাবেস প্যানেল -->
     <div id="tabSearch" class="panel">
-        <div class="search-section">
-            <div class="search-box">
-                <!-- লাইভ সার্চ ইনপুট -->
-                <input type="text" id="searchInput" placeholder="মিটার কার্ড, নাম বা ফোন দিয়ে খোঁজুন (Live Search)..." />
-            </div>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>মিটার কার্ড</th>
-                            <th>নাম</th>
-                            <th>ফোন</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dataTableBody">
-                        <tr class="empty-row"><td colspan="4">ডেটা লোড হচ্ছে...</td></tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="খুঁজুন (মিটার, নাম বা ফোন)..." />
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>মিটার কার্ড</th>
+                        <th>নাম</th>
+                        <th>ফোন</th>
+                        <th>একশন</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTableBody">
+                    <tr><td colspan="4" style="text-align:center;">ডাটা লোড হচ্ছে...</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
-<!-- API সেটিংস মডাল -->
+<!-- API মডাল -->
 <div id="apiModal" class="modal-overlay">
     <div class="modal-box">
-        <h2><i class="fab fa-github"></i> GitHub Database Setup</h2>
-        <p>আপনার গিটহাবের তথ্য দিন। এটি শুধু আপনার ব্রাউজারেই সেভ থাকবে।</p>
-        
-        <label>GitHub Username</label>
-        <input type="text" id="ghUsername" placeholder="যেমন: john-doe" />
-        
-        <label>Repository Name</label>
-        <input type="text" id="ghRepo" placeholder="যেমন: Miter" />
-        
-        <label>Personal Access Token</label>
-        <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxx" />
-        
+        <h2>GitHub Setup</h2>
+        <input type="text" id="ghUsername" placeholder="GitHub Username" />
+        <input type="text" id="ghRepo" placeholder="Repository Name" />
+        <input type="password" id="ghToken" placeholder="Token (ghp_...)" />
         <div class="modal-btns">
             <button id="closeApiBtn" class="btn-cancel">বন্ধ করুন</button>
             <button id="saveApiBtn" class="btn-save">সেভ করুন</button>
@@ -170,248 +164,242 @@
     </div>
 </div>
 
-<!-- টোস্ট মেসেজ -->
+<!-- Edit মডাল (New) -->
+<div id="editModal" class="modal-overlay">
+    <div class="modal-box">
+        <h2><i class="fas fa-edit"></i> ডাটা আপডেট করুন</h2>
+        <input type="hidden" id="editOriginalMeter" />
+        <label style="font-size:13px; color:#666;">মিটার কার্ড (পরিবর্তনযোগ্য নয়)</label>
+        <input type="text" id="editMeter" disabled style="background:#f0f0f0;" />
+        <label style="font-size:13px; color:#666;">নাম</label>
+        <input type="text" id="editName" />
+        <label style="font-size:13px; color:#666;">ফোন</label>
+        <input type="text" id="editPhone" />
+        <div class="modal-btns">
+            <button id="closeEditBtn" class="btn-cancel">বাতিল</button>
+            <button id="saveEditBtn" class="btn-save">আপডেট করুন</button>
+        </div>
+    </div>
+</div>
+
 <div id="toast" class="toast-message"></div>
 
-<!-- মূল লজিক (Single Source of Truth) -->
 <script>
     (function() {
-        'use strict';
-
-        // গ্লোবাল ভ্যারিয়েবল (শুধু পেজ ওপেন থাকা অবস্থায় মেমরিতে থাকবে)
         let cloudData = [];
+        let githubSha = ""; // গিটহাব ফাইল আপডেট করার জন্য প্রয়োজন
 
-        // ---------- DOM Elements ----------
+        // DOM Elements
         const form = document.getElementById('billForm');
         const submitBtn = document.getElementById('submitBtn');
-        const meterInput = document.getElementById('meterCard');
-        const nameInput = document.getElementById('customerName');
-        const phoneInput = document.getElementById('phoneNumber');
-        const searchInput = document.getElementById('searchInput');
         const tbody = document.getElementById('dataTableBody');
+        const apiModal = document.getElementById('apiModal');
+        const editModal = document.getElementById('editModal');
         const toast = document.getElementById('toast');
         const dbStatus = document.getElementById('dbStatus');
-        const apiModal = document.getElementById('apiModal');
+        
+        // Stats Elements
+        const statGrid = document.getElementById('dashboardStats');
+        const statTotal = document.getElementById('totalUsers');
+        const statLatest = document.getElementById('latestUser');
 
-        // ---------- হেল্পার ফাংশন ----------
-        function showToast(message, type = 'success', duration = 3000) {
-            toast.textContent = message;
+        function showToast(msg, type = 'success') {
+            toast.textContent = msg;
             toast.className = 'toast-message ' + type;
-            void toast.offsetWidth; 
             toast.classList.add('show');
-            clearTimeout(toast._hideTimer);
-            toast._hideTimer = setTimeout(() => toast.classList.remove('show'), duration);
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        function escapeHtml(text) {
-            if (!text) return '';
-            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-            return String(text).replace(/[&<>"']/g, m => map[m]);
+        // ---------- ড্যাশবোর্ড আপডেট ----------
+        function updateDashboard() {
+            statGrid.style.display = 'grid';
+            statTotal.innerText = cloudData.length;
+            if (cloudData.length > 0) {
+                statLatest.innerText = cloudData[cloudData.length - 1].name;
+            } else {
+                statLatest.innerText = "নেই";
+            }
         }
 
-        function convertToEnglishDigits(str) {
-            const banglaDigits = {'০':'0', '১':'1', '২':'2', '৩':'3', '৪':'4', '৫':'5', '৬':'6', '৭':'7', '৮':'8', '৯':'9'};
-            return str.replace(/[০-৯]/g, match => banglaDigits[match]);
-        }
-
-        // ---------- রেন্ডার টেবিল (মেঘ থেকে আসা ডাটা দেখাবে) ----------
+        // ---------- টেবিল রেন্ডার ----------
         function renderTable(filter = '') {
+            updateDashboard();
             let items = [...cloudData];
             const term = filter.trim().toLowerCase();
             
             if (term !== '') {
                 items = items.filter(item => 
-                    item.meter.toLowerCase().includes(term) ||
-                    item.name.toLowerCase().includes(term) ||
-                    item.phone.includes(term)
+                    item.meter.toLowerCase().includes(term) || item.name.toLowerCase().includes(term) || item.phone.includes(term)
                 );
             }
 
             if (items.length === 0) {
-                tbody.innerHTML = `<tr class="empty-row"><td colspan="4">🔍 কোনো রেকর্ড পাওয়া যায়নি</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">কোনো রেকর্ড পাওয়া যায়নি</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = items.map((item, idx) => `
+            tbody.innerHTML = items.map(item => `
                 <tr>
-                    <td><strong>${idx + 1}</strong></td>
-                    <td><strong>${escapeHtml(item.meter)}</strong></td>
-                    <td>${escapeHtml(item.name)}</td>
-                    <td>${escapeHtml(item.phone)}</td>
+                    <td><strong>${item.meter}</strong></td>
+                    <td>${item.name}</td>
+                    <td>${item.phone}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-icon btn-edit" onclick="openEdit('${item.meter}')"><i class="fas fa-pen"></i></button>
+                            <button class="btn-icon btn-delete" onclick="deleteRecord('${item.meter}')"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
                 </tr>
             `).join('');
         }
 
-        // ---------- গিটহাব থেকে ডাটা আনা (READ) ----------
-        async function fetchFromGitHub() {
-            const config = JSON.parse(localStorage.getItem('gh_api_config'));
-            if (!config || !config.token || !config.user || !config.repo) {
-                dbStatus.innerHTML = `<i class="fas fa-exclamation-triangle"></i> API সেটআপ নেই`;
-                tbody.innerHTML = `<tr class="empty-row"><td colspan="4">⚠️ অনুগ্রহ করে API সেটিং থেকে গিটহাব কানেক্ট করুন।</td></tr>`;
-                return;
-            }
-
-            const apiUrl = `https://api.github.com/repos/${config.user}/${config.repo}/contents/data.json`;
-
-            try {
-                const getRes = await fetch(apiUrl, { headers: { 'Authorization': `Bearer ${config.token}` } });
-                
-                if (getRes.ok) {
-                    const fileData = await getRes.json();
-                    if (fileData.content) {
-                        cloudData = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
-                        
-                        dbStatus.innerHTML = `<i class="fas fa-cloud"></i> ক্লাউড কানেক্টেড`;
-                        dbStatus.style.background = '#1d7a4f';
-                        renderTable(searchInput.value);
-                    }
-                } else if (getRes.status === 404) {
-                    cloudData = [];
-                    dbStatus.innerHTML = `<i class="fas fa-cloud"></i> নতুন ডাটাবেস`;
-                    dbStatus.style.background = '#1d7a4f';
-                    renderTable();
-                } else {
-                    throw new Error("Token Invalid");
-                }
-            } catch (error) {
-                console.error("Fetch Error:", error);
-                dbStatus.innerHTML = `<i class="fas fa-times-circle"></i> কানেকশন এরর`;
-                dbStatus.style.background = '#b13e4b';
-                tbody.innerHTML = `<tr class="empty-row"><td colspan="4">❌ গিটহাব থেকে ডাটা লোড করা যাচ্ছে না। টোকেন চেক করুন।</td></tr>`;
-            }
-        }
-
-        // ---------- গিটহাবে ডাটা পাঠানো (WRITE) ----------
-        async function pushToGitHubAndSave(newItem) {
+        // ---------- গিটহাব API কোর ফাংশন ----------
+        async function syncWithGitHub(newArray, commitMessage) {
             const config = JSON.parse(localStorage.getItem('gh_api_config'));
             if (!config || !config.token) {
-                showToast('আগে API সেটিং থেকে গিটহাব কানেক্ট করুন!', 'error');
+                showToast('API সেটআপ নেই!', 'error');
                 return false;
             }
 
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> সেভ হচ্ছে...`;
-
             const apiUrl = `https://api.github.com/repos/${config.user}/${config.repo}/contents/data.json`;
+            const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(newArray, null, 2))));
 
             try {
-                // ১. সাবমিট করার ঠিক আগে লেটেস্ট ডাটা এবং SHA নিয়ে আসা
-                const getRes = await fetch(apiUrl, { headers: { 'Authorization': `Bearer ${config.token}` } });
-                let fileData = await getRes.json();
-                
-                let currentData = [];
-                if (getRes.ok && fileData.content) {
-                    currentData = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
-                }
-
-                // ২. ডুপ্লিকেট চেক (Cloud Data এর সাথে)
-                const exists = currentData.some(d => d.meter.toLowerCase() === newItem.meter.toLowerCase());
-                if (exists) {
-                    showToast('❌ এই মিটার নম্বরটি ডাটাবেসে ইতিমধ্যে আছে!', 'error');
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ক্লাউডে সেভ করুন`;
-                    return false;
-                }
-
-                // ৩. নতুন ডাটা এড করে Base64 করা
-                currentData.push(newItem);
-                const newContentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentData, null, 2))));
-
-                // ৪. গিটহাবে আপডেট (PUT) করা
                 const putRes = await fetch(apiUrl, {
                     method: 'PUT',
                     headers: { 'Authorization': `Bearer ${config.token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: `Added bill record for ${newItem.name}`,
-                        content: newContentBase64,
-                        sha: fileData.sha || undefined
-                    })
+                    body: JSON.stringify({ message: commitMessage, content: contentBase64, sha: githubSha || undefined })
                 });
 
                 if (putRes.ok) {
-                    showToast('☁️ ডাটা সফলভাবে গিটহাবে সেভ হয়েছে!', 'success');
-                    cloudData = currentData; // গ্লোবাল ডাটা আপডেট
-                    form.reset();
-                    if (document.getElementById('tabSearch').classList.contains('active')) {
-                        renderTable(searchInput.value);
-                    }
-                } else {
-                    showToast(`❌ গিটহাব এরর! ডাটা সেভ হয়নি।`, 'error');
+                    const resData = await putRes.json();
+                    githubSha = resData.content.sha; // নতুন SHA আপডেট
+                    cloudData = newArray;
+                    renderTable(document.getElementById('searchInput').value);
+                    return true;
                 }
             } catch (error) {
                 console.error(error);
-                showToast('❌ ইন্টারনেট বা এপিআই কানেকশন সমস্যা!', 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ক্লাউডে সেভ করুন`;
             }
+            return false;
         }
 
-        // ---------- ফর্ম সাবমিট হ্যান্ডলার ----------
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const meter = meterInput.value.trim();
-            const name = nameInput.value.trim();
-            const rawPhone = phoneInput.value.trim();
-
-            if (meter.length < 3) { showToast('মিটার কার্ড নম্বর কমপক্ষে ৩ অক্ষর হতে হবে', 'error'); return; }
-
-            const cleanPhone = rawPhone.replace(/[-\s]/g, '');
-            const englishPhone = convertToEnglishDigits(cleanPhone);
-            const phoneRegex = /^(?:\+?88)?01[3-9]\d{8}$/;
-            
-            if (!phoneRegex.test(englishPhone)) {
-                showToast('সঠিক বাংলাদেশি ফোন নম্বর দিন (যেমন: 017...)', 'error');
+        // ---------- ডাটা রিড (Load) ----------
+        async function loadData() {
+            const config = JSON.parse(localStorage.getItem('gh_api_config'));
+            if (!config || !config.token) {
+                dbStatus.innerHTML = `<i class="fas fa-exclamation-triangle"></i> API নেই`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">API সেটআপ করুন</td></tr>`;
                 return;
             }
 
-            const newItem = { meter, name, phone: rawPhone };
+            try {
+                const res = await fetch(`https://api.github.com/repos/${config.user}/${config.repo}/contents/data.json`, { headers: { 'Authorization': `Bearer ${config.token}` } });
+                if (res.ok) {
+                    const data = await res.json();
+                    githubSha = data.sha;
+                    cloudData = JSON.parse(decodeURIComponent(escape(atob(data.content))));
+                    dbStatus.innerHTML = `<i class="fas fa-cloud"></i> কানেক্টেড`;
+                    dbStatus.style.background = '#1d7a4f';
+                    renderTable();
+                } else if (res.status === 404) {
+                    cloudData = [];
+                    renderTable();
+                }
+            } catch (e) {
+                dbStatus.innerHTML = `<i class="fas fa-times"></i> এরর`;
+                dbStatus.style.background = '#b13e4b';
+            }
+        }
+
+        // ---------- এন্ট্রি যোগ করা ----------
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            submitBtn.disabled = true; submitBtn.innerText = "সেভ হচ্ছে...";
             
-            // সরাসরি গিটহাবে পুশ ফাংশন কল করা
-            pushToGitHubAndSave(newItem);
+            const newItem = {
+                meter: document.getElementById('meterCard').value.trim(),
+                name: document.getElementById('customerName').value.trim(),
+                phone: document.getElementById('phoneNumber').value.trim()
+            };
+
+            if (cloudData.some(d => d.meter.toLowerCase() === newItem.meter.toLowerCase())) {
+                showToast('এই মিটার নম্বর ইতিমধ্যে আছে!', 'error');
+                submitBtn.disabled = false; submitBtn.innerText = "ক্লাউডে সেভ করুন";
+                return;
+            }
+
+            const updatedArray = [...cloudData, newItem];
+            const success = await syncWithGitHub(updatedArray, `Added ${newItem.name}`);
+            
+            if (success) { showToast('ডাটা সেভ হয়েছে!'); form.reset(); }
+            else { showToast('সেভ হতে সমস্যা হয়েছে!', 'error'); }
+            
+            submitBtn.disabled = false; submitBtn.innerText = "ক্লাউডে সেভ করুন";
         });
 
-        // ---------- API মডাল লজিক ----------
-        document.getElementById('settingsBtn').addEventListener('click', () => {
-            const config = JSON.parse(localStorage.getItem('gh_api_config')) || { user: '', repo: '', token: '' };
-            document.getElementById('ghUsername').value = config.user;
-            document.getElementById('ghRepo').value = config.repo;
-            document.getElementById('ghToken').value = config.token;
-            apiModal.style.display = 'flex';
-        });
+        // ---------- ডিলিট করা ----------
+        window.deleteRecord = async function(meter) {
+            if (!confirm(`আপনি কি সত্যিই ${meter} রেকর্ডটি ডিলিট করতে চান?`)) return;
+            
+            const updatedArray = cloudData.filter(d => d.meter !== meter);
+            showToast('ডিলিট হচ্ছে...', 'success');
+            
+            const success = await syncWithGitHub(updatedArray, `Deleted ${meter}`);
+            if(success) showToast('সফলভাবে ডিলিট হয়েছে!');
+        };
 
+        // ---------- এডিট করা ----------
+        window.openEdit = function(meter) {
+            const item = cloudData.find(d => d.meter === meter);
+            if(!item) return;
+            
+            document.getElementById('editOriginalMeter').value = item.meter;
+            document.getElementById('editMeter').value = item.meter;
+            document.getElementById('editName').value = item.name;
+            document.getElementById('editPhone').value = item.phone;
+            editModal.style.display = 'flex';
+        };
+
+        document.getElementById('saveEditBtn').addEventListener('click', async () => {
+            const meter = document.getElementById('editOriginalMeter').value;
+            const newName = document.getElementById('editName').value.trim();
+            const newPhone = document.getElementById('editPhone').value.trim();
+
+            const updatedArray = cloudData.map(d => {
+                if (d.meter === meter) return { meter, name: newName, phone: newPhone };
+                return d;
+            });
+
+            document.getElementById('saveEditBtn').innerText = "আপডেট হচ্ছে...";
+            const success = await syncWithGitHub(updatedArray, `Updated ${meter}`);
+            
+            if (success) { showToast('আপডেট সফল হয়েছে!'); editModal.style.display = 'none'; }
+            document.getElementById('saveEditBtn').innerText = "আপডেট করুন";
+        });
+        document.getElementById('closeEditBtn').addEventListener('click', () => editModal.style.display = 'none');
+
+        // ---------- অন্যান্য ইভেন্ট ----------
+        document.getElementById('searchInput').addEventListener('input', (e) => renderTable(e.target.value));
+        document.getElementById('settingsBtn').addEventListener('click', () => apiModal.style.display = 'flex');
         document.getElementById('closeApiBtn').addEventListener('click', () => apiModal.style.display = 'none');
-        
         document.getElementById('saveApiBtn').addEventListener('click', () => {
             const user = document.getElementById('ghUsername').value.trim();
             const repo = document.getElementById('ghRepo').value.trim();
             const token = document.getElementById('ghToken').value.trim();
-            localStorage.setItem('gh_api_config', JSON.stringify({ user, repo, token }));
-            showToast('✅ API সেটিংস সেভ হয়েছে!', 'success');
-            apiModal.style.display = 'none';
-            fetchFromGitHub(); // নতুন টোকেন দেওয়ার পর ডাটা রিফ্রেশ
+            localStorage.setItem('gh_api_config', JSON.stringify({user, repo, token}));
+            apiModal.style.display = 'none'; loadData();
         });
-
-        // ---------- অন্যান্য ইভেন্ট ----------
-        searchInput.addEventListener('input', () => renderTable(searchInput.value));
 
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-                
+                document.querySelectorAll('.tab-btn, .panel').forEach(el => el.classList.remove('active'));
                 this.classList.add('active');
                 document.getElementById(this.dataset.tab).classList.add('active');
-
-                if (this.dataset.tab === 'tabSearch') renderTable(searchInput.value);
             });
         });
 
-        // ---------- পেজ লোড হলে গিটহাব থেকে ডাটা আনবে ----------
-        window.addEventListener('load', () => {
-            fetchFromGitHub();
-        });
-
+        window.addEventListener('load', loadData);
     })();
 </script>
 </body>
