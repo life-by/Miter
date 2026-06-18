@@ -5,12 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover" />
     <title>বিদ্যুত বিল প্রদান - ক্লাউড সিস্টেম</title>
     
-    <!-- PWA Meta Tags -->
-    <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" content="#0b2b4f" />
+    <!-- PWA Meta Tags (ফিক্স করা হয়েছে) -->
+    <link rel="manifest" href="data:application/json,{
+        &quot;name&quot;: &quot;বিদ্যুত বিল ডাটাবেস&quot;,
+        &quot;short_name&quot;: &quot;বিল ডাটাবেস&quot;,
+        &quot;description&quot;: &quot;বিদ্যুত বিল প্রদান ও গ্রাহক ডাটাবেস&quot;,
+        &quot;start_url&quot;: &quot;.&quot;,
+        &quot;display&quot;: &quot;standalone&quot;,
+        &quot;background_color&quot;: &quot;#f6f9fc&quot;,
+        &quot;theme_color&quot;: &quot;#0b2b4f&quot;,
+        &quot;icons&quot;: [
+            {
+                &quot;src&quot;: &quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230b2b4f'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-size='280' fill='%23f5b042' font-family='Arial'%3E⚡%3C/text%3E%3C/svg%3E&quot;,
+                &quot;sizes&quot;: &quot;512x512&quot;,
+                &quot;type&quot;: &quot;image/svg+xml&quot;
+            },
+            {
+                &quot;src&quot;: &quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230b2b4f'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-size='280' fill='%23f5b042' font-family='Arial'%3E⚡%3C/text%3E%3C/svg%3E&quot;,
+                &quot;sizes&quot;: &quot;192x192&quot;,
+                &quot;type&quot;: &quot;image/svg+xml&quot;
+            }
+        ]
+    }" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <link rel="apple-touch-icon" href="icon-192.png" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230b2b4f'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-size='280' fill='%23f5b042' font-family='Arial'%3E⚡%3C/text%3E%3C/svg%3E" />
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
@@ -105,7 +125,7 @@
             cursor: default; 
         }
 
-        /* ---------- PWA ইনস্টল বাটন (হোম পেজে) ---------- */
+        /* ---------- PWA ইনস্টল সেকশন ---------- */
         .pwa-install-section {
             background: linear-gradient(135deg, #0b2b4f 0%, #1a4a7a 100%);
             border-radius: 18px;
@@ -584,7 +604,7 @@
         .toast-message.success { background: #1d7a4f; }
         .toast-message.error { background: #b13e4b; }
 
-        /* ---------- মোবাইল ফ্রেন্ডলি মিডিয়া কোয়েরি ---------- */
+        /* ---------- মোবাইল ফ্রেন্ডলি ---------- */
         @media (max-width: 480px) {
             body { 
                 padding: 8px 6px;
@@ -767,7 +787,6 @@
                 cursor: default;
             }
             
-            /* বড় টাচ টার্গেট */
             .btn-icon, .copy-btn {
                 min-width: 40px;
                 min-height: 40px;
@@ -782,7 +801,7 @@
             }
         }
 
-        /* ---------- ডার্ক মোড সাপোর্ট ---------- */
+        /* ---------- ডার্ক মোড ---------- */
         @media (prefers-color-scheme: dark) {
             body {
                 background: linear-gradient(145deg, #1a2332 0%, #0f1724 100%);
@@ -961,7 +980,7 @@
         </div>
     </div>
 
-    <!-- PWA ইনস্টল সেকশন (হোম পেজে) -->
+    <!-- PWA ইনস্টল সেকশন -->
     <div id="pwaInstallSection" class="pwa-install-section">
         <div class="pwa-install-text">
             <i class="fas fa-mobile-alt"></i>
@@ -1093,17 +1112,20 @@
         const statTotal = document.getElementById('totalUsers');
         const statLatest = document.getElementById('latestUser');
 
-        // ---------- PWA ইনস্টল ----------
+        // ---------- PWA ইনস্টল (ফিক্স করা হয়েছে) ----------
         let deferredPrompt;
         const pwaSection = document.getElementById('pwaInstallSection');
         const pwaBtn = document.getElementById('pwaInstallBtn');
 
+        // beforeinstallprompt ইভেন্ট
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
             pwaSection.classList.add('show');
+            console.log('PWA install prompt ready');
         });
 
+        // ইন্সটল বাটন ক্লিক
         pwaBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
                 try {
@@ -1114,13 +1136,25 @@
                     }
                     deferredPrompt = null;
                 } catch (err) {
+                    console.log('Install error:', err);
                     showToast('ইনস্টল করতে সমস্যা!', 'error');
                 }
             } else {
-                showToast('এই ব্রাউজারে ইনস্টল সাপোর্ট নেই', 'error');
+                // যদি deferredPrompt না থাকে, ম্যানুয়ালি চেষ্টা
+                try {
+                    // কিছু ব্রাউজারে 직접 install() কল করা যায়
+                    if (window.navigator && window.navigator.standalone === false) {
+                        showToast('ব্রাউজার মেনু থেকে "Add to Home Screen" করুন', 'success');
+                    } else {
+                        showToast('এই ব্রাউজারে ইনস্টল সাপোর্ট নেই', 'error');
+                    }
+                } catch (err) {
+                    showToast('ইনস্টল অপশন উপলব্ধ নয়', 'error');
+                }
             }
         });
 
+        // অ্যাপ ইনস্টল হলে
         window.addEventListener('appinstalled', () => {
             showToast('অ্যাপ সফলভাবে ইনস্টল হয়েছে! 🎉', 'success');
             pwaSection.classList.remove('show');
@@ -1142,7 +1176,6 @@
                     if (navigator.clipboard && navigator.clipboard.writeText) {
                         await navigator.clipboard.writeText(text);
                     } else {
-                        // ফallback
                         const ta = document.createElement('textarea');
                         ta.value = text;
                         ta.style.position = 'fixed';
@@ -1167,7 +1200,6 @@
             copy();
         }
 
-        // গ্লোবালি এক্সপোজ
         window.copyToClipboard = copyToClipboard;
 
         // ---------- ড্যাশবোর্ড আপডেট ----------
@@ -1428,9 +1460,16 @@
         // ---------- PWA সার্ভিস ওয়ার্কার ----------
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js')
-                .then(() => console.log('SW Registered'))
-                .catch(() => console.log('SW Registration failed'));
+                .then(() => console.log('Service Worker Registered'))
+                .catch(() => console.log('Service Worker Registration failed'));
         }
+
+        // ---------- ডিবাগ: PWA স্ট্যাটাস চেক ----------
+        console.log('PWA Status:', {
+            manifest: document.querySelector('link[rel="manifest"]') ? '✅' : '❌',
+            serviceWorker: 'serviceWorker' in navigator ? '✅' : '❌',
+            beforeinstallprompt: typeof window.beforeinstallprompt !== 'undefined' ? '✅' : '❌'
+        });
     })();
 </script>
 </body>
