@@ -35,16 +35,18 @@
 
     // ---------- পাবলিক API ----------
     const dataStore = {
+        // সব ডেটা রিটার্ন করবে
         getAll: function() {
             return billData.slice(); // শ্যালো কপি রিটার্ন
         },
 
+        // নতুন ডেটা এড করবে
         add: function(item) {
             if (!item || !item.meter || !item.name || !item.phone) {
                 return { success: false, message: 'অবৈধ ডেটা!' };
             }
             
-            // ডুপ্লিকেট মিটার চেক (মিটার নম্বর ইউনিক হতে হবে)
+            // ডুপ্লিকেট মিটার চেক
             const exists = billData.some(d => 
                 d.meter.toLowerCase() === item.meter.trim().toLowerCase()
             );
@@ -67,6 +69,16 @@
             }
 
             return { success: true, message: 'সফলভাবে সংরক্ষিত হয়েছে' };
+        },
+
+        // গিটহাব থেকে আসা ডেটা দিয়ে লোকাল ডেটা আপডেট করবে
+        setAll: function(serverData) {
+            if (Array.isArray(serverData)) {
+                billData = serverData;
+                try {
+                    localStorage.setItem('billData', JSON.stringify(billData));
+                } catch(e) {}
+            }
         }
     };
 
