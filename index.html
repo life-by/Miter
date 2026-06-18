@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>বিদ্যুত বিল প্রদান - ডিজিটাল সিস্টেম</title>
+    <title>বিদ্যুত বিল প্রদান - ক্লাউড সিস্টেম</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
@@ -22,7 +22,7 @@
         .header-badge { padding: 8px 18px; border-radius: 60px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; border: none; display: flex; align-items: center; gap: 8px; box-shadow: 0 6px 14px rgba(0,0,0,0.1);}
         .badge-api { background: #f5b042; color: #0b2b4f; }
         .badge-api:hover { background: #e09f38; }
-        .badge-db { background: #0b2b4f; color: white; cursor: default; }
+        .badge-db { background: #b13e4b; color: white; cursor: default; }
 
         /* ---------- ট্যাব ও প্যানেল ---------- */
         .tabs { display: flex; gap: 6px; background: rgba(0, 0, 0, 0.04); padding: 6px; border-radius: 60px; margin-bottom: 28px; }
@@ -42,6 +42,7 @@
         .form-group input:focus { border-color: #2a6bb0; background: white; box-shadow: 0 0 0 4px rgba(42, 107, 176, 0.12); }
         .btn-primary { grid-column: 1 / -1; padding: 15px; background: #0b2b4f; border: none; border-radius: 60px; font-size: 18px; font-weight: 700; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: 0.25s ease; box-shadow: 0 8px 24px rgba(11, 43, 79, 0.25); }
         .btn-primary:hover { background: #1a3f6a; transform: translateY(-2px); }
+        .btn-primary:disabled { background: #8da0b8; cursor: not-allowed; transform: none; box-shadow: none;}
 
         /* ---------- সার্চ ও টেবিল ---------- */
         .search-section { background: white; border-radius: 30px; padding: 25px; box-shadow: 0 8px 24px rgba(0, 20, 40, 0.04); }
@@ -73,6 +74,7 @@
         .toast-message.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
         .toast-message.success { background: #1d7a4f; }
         .toast-message.error { background: #b13e4b; }
+        .toast-message.warning { background: #f5b042; color: #0b2b4f; }
 
         @media (max-width: 600px) {
             .form-grid { grid-template-columns: 1fr; padding: 20px; }
@@ -89,16 +91,16 @@
         <h1><i class="fas fa-bolt"></i> বিদ্যুত বিল</h1>
         <div class="header-actions">
             <button id="settingsBtn" class="header-badge badge-api" title="GitHub API Connect">
-                <i class="fas fa-cloud"></i> API সেটিং
+                <i class="fas fa-cog"></i> API সেটিং
             </button>
-            <span class="header-badge badge-db" id="dbStatus"><i class="fas fa-check-circle"></i> লোকাল ডেটা</span>
+            <span class="header-badge badge-db" id="dbStatus"><i class="fas fa-times-circle"></i> অফলাইন</span>
         </div>
     </div>
 
     <!-- ট্যাব -->
     <div class="tabs">
         <button class="tab-btn active" data-tab="tabForm"><i class="fas fa-pen-to-square"></i> নতুন এন্ট্রি</button>
-        <button class="tab-btn" data-tab="tabSearch"><i class="fas fa-search"></i> খোঁজ ও দেখুন</button>
+        <button class="tab-btn" data-tab="tabSearch"><i class="fas fa-cloud-download-alt"></i> ডাটাবেস দেখুন</button>
     </div>
 
     <!-- প্যানেল ১: ফর্ম -->
@@ -116,7 +118,7 @@
                 <label><i class="fas fa-phone"></i> ফোন নম্বর</label>
                 <input type="tel" id="phoneNumber" placeholder="০১৭XX-XXXXXX বা 017XX-XXXXXX" required />
             </div>
-            <button type="submit" class="btn-primary"><i class="fas fa-save"></i> সংরক্ষণ করুন</button>
+            <button type="submit" id="submitBtn" class="btn-primary"><i class="fas fa-cloud-upload-alt"></i> ক্লাউডে সেভ করুন</button>
         </form>
     </div>
 
@@ -137,7 +139,9 @@
                             <th>ফোন</th>
                         </tr>
                     </thead>
-                    <tbody id="dataTableBody"></tbody>
+                    <tbody id="dataTableBody">
+                        <tr class="empty-row"><td colspan="4">ডেটা লোড হচ্ছে...</td></tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -147,14 +151,14 @@
 <!-- API সেটিংস মডাল -->
 <div id="apiModal" class="modal-overlay">
     <div class="modal-box">
-        <h2><i class="fab fa-github"></i> GitHub Backup Setup</h2>
-        <p>আপনার গিটহাবের তথ্য দিন। এটি <b>সম্পূর্ণ নিরাপদ</b> এবং শুধু আপনার ডিভাইসের স্টোরেজেই সেভ থাকবে।</p>
+        <h2><i class="fab fa-github"></i> GitHub Database Setup</h2>
+        <p>আপনার গিটহাবের তথ্য দিন। এটি শুধু আপনার ব্রাউজারেই সেভ থাকবে।</p>
         
         <label>GitHub Username</label>
         <input type="text" id="ghUsername" placeholder="যেমন: john-doe" />
         
         <label>Repository Name</label>
-        <input type="text" id="ghRepo" placeholder="যেমন: electricity-bill-db" />
+        <input type="text" id="ghRepo" placeholder="যেমন: Miter" />
         
         <label>Personal Access Token</label>
         <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxx" />
@@ -169,16 +173,17 @@
 <!-- টোস্ট মেসেজ -->
 <div id="toast" class="toast-message"></div>
 
-<!-- ডেটা লেয়ার -->
-<script src="data.js"></script>
-
-<!-- মূল লজিক -->
+<!-- মূল লজিক (Single Source of Truth) -->
 <script>
     (function() {
         'use strict';
 
+        // গ্লোবাল ভ্যারিয়েবল (শুধু পেজ ওপেন থাকা অবস্থায় মেমরিতে থাকবে)
+        let cloudData = [];
+
         // ---------- DOM Elements ----------
         const form = document.getElementById('billForm');
+        const submitBtn = document.getElementById('submitBtn');
         const meterInput = document.getElementById('meterCard');
         const nameInput = document.getElementById('customerName');
         const phoneInput = document.getElementById('phoneNumber');
@@ -186,34 +191,32 @@
         const tbody = document.getElementById('dataTableBody');
         const toast = document.getElementById('toast');
         const dbStatus = document.getElementById('dbStatus');
+        const apiModal = document.getElementById('apiModal');
 
-        // ---------- Toast Function ----------
+        // ---------- হেল্পার ফাংশন ----------
         function showToast(message, type = 'success', duration = 3000) {
             toast.textContent = message;
             toast.className = 'toast-message ' + type;
-            void toast.offsetWidth; // Reflow
+            void toast.offsetWidth; 
             toast.classList.add('show');
             clearTimeout(toast._hideTimer);
             toast._hideTimer = setTimeout(() => toast.classList.remove('show'), duration);
         }
 
-        // ---------- XSS Prevention ----------
         function escapeHtml(text) {
             if (!text) return '';
             const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
             return String(text).replace(/[&<>"']/g, m => map[m]);
         }
 
-        // ---------- বাংলা থেকে ইংরেজি সংখ্যা রূপান্তর ----------
         function convertToEnglishDigits(str) {
             const banglaDigits = {'০':'0', '১':'1', '২':'2', '৩':'3', '৪':'4', '৫':'5', '৬':'6', '৭':'7', '৮':'8', '৯':'9'};
             return str.replace(/[০-৯]/g, match => banglaDigits[match]);
         }
 
-        // ---------- Render Table ----------
+        // ---------- রেন্ডার টেবিল (মেঘ থেকে আসা ডাটা দেখাবে) ----------
         function renderTable(filter = '') {
-            if (typeof dataStore === 'undefined') return;
-            let items = dataStore.getAll();
+            let items = [...cloudData];
             const term = filter.trim().toLowerCase();
             
             if (term !== '') {
@@ -239,8 +242,136 @@
             `).join('');
         }
 
-        // ---------- GitHub API Configuration (Local) ----------
-        const apiModal = document.getElementById('apiModal');
+        // ---------- গিটহাব থেকে ডাটা আনা (READ) ----------
+        async function fetchFromGitHub() {
+            const config = JSON.parse(localStorage.getItem('gh_api_config'));
+            if (!config || !config.token || !config.user || !config.repo) {
+                dbStatus.innerHTML = `<i class="fas fa-exclamation-triangle"></i> API সেটআপ নেই`;
+                tbody.innerHTML = `<tr class="empty-row"><td colspan="4">⚠️ অনুগ্রহ করে API সেটিং থেকে গিটহাব কানেক্ট করুন।</td></tr>`;
+                return;
+            }
+
+            const apiUrl = `https://api.github.com/repos/${config.user}/${config.repo}/contents/data.json`;
+
+            try {
+                const getRes = await fetch(apiUrl, { headers: { 'Authorization': `Bearer ${config.token}` } });
+                
+                if (getRes.ok) {
+                    const fileData = await getRes.json();
+                    if (fileData.content) {
+                        cloudData = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
+                        
+                        dbStatus.innerHTML = `<i class="fas fa-cloud"></i> ক্লাউড কানেক্টেড`;
+                        dbStatus.style.background = '#1d7a4f';
+                        renderTable(searchInput.value);
+                    }
+                } else if (getRes.status === 404) {
+                    cloudData = [];
+                    dbStatus.innerHTML = `<i class="fas fa-cloud"></i> নতুন ডাটাবেস`;
+                    dbStatus.style.background = '#1d7a4f';
+                    renderTable();
+                } else {
+                    throw new Error("Token Invalid");
+                }
+            } catch (error) {
+                console.error("Fetch Error:", error);
+                dbStatus.innerHTML = `<i class="fas fa-times-circle"></i> কানেকশন এরর`;
+                dbStatus.style.background = '#b13e4b';
+                tbody.innerHTML = `<tr class="empty-row"><td colspan="4">❌ গিটহাব থেকে ডাটা লোড করা যাচ্ছে না। টোকেন চেক করুন।</td></tr>`;
+            }
+        }
+
+        // ---------- গিটহাবে ডাটা পাঠানো (WRITE) ----------
+        async function pushToGitHubAndSave(newItem) {
+            const config = JSON.parse(localStorage.getItem('gh_api_config'));
+            if (!config || !config.token) {
+                showToast('আগে API সেটিং থেকে গিটহাব কানেক্ট করুন!', 'error');
+                return false;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> সেভ হচ্ছে...`;
+
+            const apiUrl = `https://api.github.com/repos/${config.user}/${config.repo}/contents/data.json`;
+
+            try {
+                // ১. সাবমিট করার ঠিক আগে লেটেস্ট ডাটা এবং SHA নিয়ে আসা
+                const getRes = await fetch(apiUrl, { headers: { 'Authorization': `Bearer ${config.token}` } });
+                let fileData = await getRes.json();
+                
+                let currentData = [];
+                if (getRes.ok && fileData.content) {
+                    currentData = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
+                }
+
+                // ২. ডুপ্লিকেট চেক (Cloud Data এর সাথে)
+                const exists = currentData.some(d => d.meter.toLowerCase() === newItem.meter.toLowerCase());
+                if (exists) {
+                    showToast('❌ এই মিটার নম্বরটি ডাটাবেসে ইতিমধ্যে আছে!', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ক্লাউডে সেভ করুন`;
+                    return false;
+                }
+
+                // ৩. নতুন ডাটা এড করে Base64 করা
+                currentData.push(newItem);
+                const newContentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentData, null, 2))));
+
+                // ৪. গিটহাবে আপডেট (PUT) করা
+                const putRes = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `Bearer ${config.token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: `Added bill record for ${newItem.name}`,
+                        content: newContentBase64,
+                        sha: fileData.sha || undefined
+                    })
+                });
+
+                if (putRes.ok) {
+                    showToast('☁️ ডাটা সফলভাবে গিটহাবে সেভ হয়েছে!', 'success');
+                    cloudData = currentData; // গ্লোবাল ডাটা আপডেট
+                    form.reset();
+                    if (document.getElementById('tabSearch').classList.contains('active')) {
+                        renderTable(searchInput.value);
+                    }
+                } else {
+                    showToast(`❌ গিটহাব এরর! ডাটা সেভ হয়নি।`, 'error');
+                }
+            } catch (error) {
+                console.error(error);
+                showToast('❌ ইন্টারনেট বা এপিআই কানেকশন সমস্যা!', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> ক্লাউডে সেভ করুন`;
+            }
+        }
+
+        // ---------- ফর্ম সাবমিট হ্যান্ডলার ----------
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const meter = meterInput.value.trim();
+            const name = nameInput.value.trim();
+            const rawPhone = phoneInput.value.trim();
+
+            if (meter.length < 3) { showToast('মিটার কার্ড নম্বর কমপক্ষে ৩ অক্ষর হতে হবে', 'error'); return; }
+
+            const cleanPhone = rawPhone.replace(/[-\s]/g, '');
+            const englishPhone = convertToEnglishDigits(cleanPhone);
+            const phoneRegex = /^(?:\+?88)?01[3-9]\d{8}$/;
+            
+            if (!phoneRegex.test(englishPhone)) {
+                showToast('সঠিক বাংলাদেশি ফোন নম্বর দিন (যেমন: 017...)', 'error');
+                return;
+            }
+
+            const newItem = { meter, name, phone: rawPhone };
+            
+            // সরাসরি গিটহাবে পুশ ফাংশন কল করা
+            pushToGitHubAndSave(newItem);
+        });
+
+        // ---------- API মডাল লজিক ----------
         document.getElementById('settingsBtn').addEventListener('click', () => {
             const config = JSON.parse(localStorage.getItem('gh_api_config')) || { user: '', repo: '', token: '' };
             document.getElementById('ghUsername').value = config.user;
@@ -256,135 +387,14 @@
             const repo = document.getElementById('ghRepo').value.trim();
             const token = document.getElementById('ghToken').value.trim();
             localStorage.setItem('gh_api_config', JSON.stringify({ user, repo, token }));
-            showToast('✅ API সেটিংস ডিভাইসে সেভ হয়েছে!', 'success');
+            showToast('✅ API সেটিংস সেভ হয়েছে!', 'success');
             apiModal.style.display = 'none';
-            // নতুন টোকেন দেওয়ার পর ডেটা ফেচ করার চেষ্টা করবে
-            fetchFromGitHub();
+            fetchFromGitHub(); // নতুন টোকেন দেওয়ার পর ডাটা রিফ্রেশ
         });
 
-        // ---------- Fetch From GitHub (Load Data) ----------
-        async function fetchFromGitHub() {
-            const config = JSON.parse(localStorage.getItem('gh_api_config'));
-            if (!config || !config.token || !config.user || !config.repo) return;
-
-            const apiUrl = `https://api.github.com/repos/${config.user}/${config.repo}/contents/data.json`;
-
-            try {
-                const getRes = await fetch(apiUrl, { headers: { 'Authorization': `Bearer ${config.token}` } });
-                
-                if (getRes.ok) {
-                    const fileData = await getRes.json();
-                    if (fileData.content) {
-                        const serverData = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
-                        dataStore.setAll(serverData);
-                        
-                        dbStatus.innerHTML = `<i class="fas fa-cloud-download-alt"></i> ক্লাউড সিঙ্কড`;
-                        dbStatus.style.background = '#1d7a4f';
-
-                        if (document.getElementById('tabSearch').classList.contains('active')) {
-                            renderTable(searchInput.value);
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error("Fetch Error:", error);
-            }
-        }
-
-        // ---------- Push to GitHub (Save Data) ----------
-        async function pushToGitHub(newRecord) {
-            const config = JSON.parse(localStorage.getItem('gh_api_config'));
-            if (!config || !config.token || !config.user || !config.repo) return;
-
-            const apiUrl = `https://api.github.com/repos/${config.user}/${config.repo}/contents/data.json`;
-
-            try {
-                showToast('☁️ গিটহাবে ব্যাকআপ হচ্ছে...', 'success', 2000);
-                const getRes = await fetch(apiUrl, { headers: { 'Authorization': `Bearer ${config.token}` } });
-                let fileData = await getRes.json();
-                
-                if (getRes.status === 401 || getRes.status === 403) {
-                    showToast('❌ টোকেন ভুল বা পারমিশন নেই!', 'error', 4000);
-                    return;
-                }
-
-                let currentData = [];
-                if (getRes.ok && fileData.content) {
-                    currentData = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
-                } else if (getRes.status === 404) {
-                    console.log("data.json ফাইল নেই, নতুন তৈরি করা হচ্ছে...");
-                }
-                
-                currentData.push(newRecord);
-                const newContentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(currentData, null, 2))));
-
-                const putRes = await fetch(apiUrl, {
-                    method: 'PUT',
-                    headers: { 'Authorization': `Bearer ${config.token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: `Added bill record for ${newRecord.name}`,
-                        content: newContentBase64,
-                        sha: fileData.sha || undefined
-                    })
-                });
-
-                if (putRes.ok) {
-                    showToast('☁️ ডেটা গিটহাবে লাইভ ব্যাকআপ হয়েছে!', 'success');
-                    dbStatus.innerHTML = `<i class="fas fa-cloud-download-alt"></i> ক্লাউড সিঙ্কড`;
-                    dbStatus.style.background = '#1d7a4f';
-                } else {
-                    const errorData = await putRes.json();
-                    showToast(`❌ এরর: ${errorData.message}`, 'error', 4000);
-                }
-            } catch (error) {
-                console.error(error);
-                showToast('❌ ইন্টারনেট বা এপিআই কানেকশন সমস্যা!', 'error');
-            }
-        }
-
-        // ---------- Form Submit Handler ----------
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const meter = meterInput.value.trim();
-            const name = nameInput.value.trim();
-            const rawPhone = phoneInput.value.trim();
-
-            if (meter.length < 3) { showToast('মিটার কার্ড নম্বর কমপক্ষে ৩ অক্ষর হতে হবে', 'error'); return; }
-
-            // ফোন নম্বর ভ্যালিডেশন
-            const cleanPhone = rawPhone.replace(/[-\s]/g, '');
-            const englishPhone = convertToEnglishDigits(cleanPhone);
-            const phoneRegex = /^(?:\+?88)?01[3-9]\d{8}$/;
-            
-            if (!phoneRegex.test(englishPhone)) {
-                showToast('সঠিক বাংলাদেশি ফোন নম্বর দিন (যেমন: 017... বা ০১৭...)', 'error');
-                return;
-            }
-
-            const newItem = { meter, name, phone: rawPhone };
-            
-            // data.js এ সেভ করা
-            const dbResult = dataStore.add(newItem);
-            if (!dbResult.success) {
-                showToast(dbResult.message, 'error'); 
-                return;
-            }
-
-            form.reset();
-            showToast(`✅ "${name}"-এর তথ্য লোকালি সেভ হয়েছে!`, 'success');
-            
-            // GitHub এ ব্যাকআপ পাঠানো (ব্যাকগ্রাউন্ডে)
-            pushToGitHub(newItem);
-
-            if (document.getElementById('tabSearch').classList.contains('active')) {
-                renderTable(searchInput.value);
-            }
-        });
-
-        // ---------- Live Search ----------
+        // ---------- অন্যান্য ইভেন্ট ----------
         searchInput.addEventListener('input', () => renderTable(searchInput.value));
 
-        // ---------- Tab Switch Logic ----------
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -397,13 +407,12 @@
             });
         });
 
-        // ---------- On Page Load ----------
+        // ---------- পেজ লোড হলে গিটহাব থেকে ডাটা আনবে ----------
         window.addEventListener('load', () => {
-            fetchFromGitHub(); // পেজ লোড হলেই ডেটা আনবে
+            fetchFromGitHub();
         });
 
     })();
 </script>
-
 </body>
 </html>
