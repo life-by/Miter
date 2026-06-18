@@ -21,7 +21,7 @@
         .badge-api { background: #f5b042; color: #0b2b4f; }
         .badge-db { background: #b13e4b; color: white; cursor: default; }
 
-        /* ---------- ড্যাশবোর্ড স্ট্যাটস (New) ---------- */
+        /* ---------- ড্যাশবোর্ড স্ট্যাটস ---------- */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .stat-card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; border-left: 5px solid #0b2b4f;}
         .stat-icon { width: 50px; height: 50px; border-radius: 50%; background: #f0f6fd; color: #2a6bb0; display: flex; justify-content: center; align-items: center; font-size: 20px; }
@@ -45,7 +45,7 @@
         .btn-primary { grid-column: 1 / -1; padding: 15px; background: #0b2b4f; border: none; border-radius: 60px; font-size: 18px; font-weight: bold; color: white; cursor: pointer; transition: 0.2s; }
         .btn-primary:disabled { background: #8da0b8; cursor: not-allowed; }
 
-        /* ---------- টেবিল ও একশন বাটন (New) ---------- */
+        /* ---------- টেবিল ও একশন বাটন ---------- */
         .search-box { margin-bottom: 20px; }
         .search-box input { width: 100%; padding: 14px; border: 1.5px solid #dfe8f0; border-radius: 60px; outline: none; }
         .table-wrap { overflow-x: auto; border-radius: 20px; background: white; padding: 10px; }
@@ -85,7 +85,7 @@
         </div>
     </div>
 
-    <!-- ড্যাশবোর্ড স্ট্যাটস (New) -->
+    <!-- ড্যাশবোর্ড স্ট্যাটস -->
     <div class="stats-grid" id="dashboardStats" style="display: none;">
         <div class="stat-card">
             <div class="stat-icon"><i class="fas fa-users"></i></div>
@@ -136,6 +136,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>মিটার কার্ড</th>
                         <th>নাম</th>
                         <th>ফোন</th>
@@ -143,7 +144,7 @@
                     </tr>
                 </thead>
                 <tbody id="dataTableBody">
-                    <tr><td colspan="4" style="text-align:center;">ডাটা লোড হচ্ছে...</td></tr>
+                    <tr><td colspan="5" style="text-align:center;">ডাটা লোড হচ্ছে...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -164,7 +165,7 @@
     </div>
 </div>
 
-<!-- Edit মডাল (New) -->
+<!-- Edit মডাল -->
 <div id="editModal" class="modal-overlay">
     <div class="modal-box">
         <h2><i class="fas fa-edit"></i> ডাটা আপডেট করুন</h2>
@@ -187,9 +188,8 @@
 <script>
     (function() {
         let cloudData = [];
-        let githubSha = ""; // গিটহাব ফাইল আপডেট করার জন্য প্রয়োজন
+        let githubSha = ""; 
 
-        // DOM Elements
         const form = document.getElementById('billForm');
         const submitBtn = document.getElementById('submitBtn');
         const tbody = document.getElementById('dataTableBody');
@@ -198,7 +198,6 @@
         const toast = document.getElementById('toast');
         const dbStatus = document.getElementById('dbStatus');
         
-        // Stats Elements
         const statGrid = document.getElementById('dashboardStats');
         const statTotal = document.getElementById('totalUsers');
         const statLatest = document.getElementById('latestUser');
@@ -210,7 +209,6 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // ---------- ড্যাশবোর্ড আপডেট ----------
         function updateDashboard() {
             statGrid.style.display = 'grid';
             statTotal.innerText = cloudData.length;
@@ -221,7 +219,7 @@
             }
         }
 
-        // ---------- টেবিল রেন্ডার ----------
+        // ---------- টেবিল রেন্ডার (সিরিয়াল নম্বর সহ) ----------
         function renderTable(filter = '') {
             updateDashboard();
             let items = [...cloudData];
@@ -234,26 +232,27 @@
             }
 
             if (items.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">কোনো রেকর্ড পাওয়া যায়নি</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">কোনো রেকর্ড পাওয়া যায়নি</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = items.map(item => `
+            // এখানে idx + 1 দিয়ে সিরিয়াল নম্বর (1, 2, 3...) আনা হয়েছে
+            tbody.innerHTML = items.map((item, idx) => `
                 <tr>
+                    <td><strong>${idx + 1}</strong></td>
                     <td><strong>${item.meter}</strong></td>
                     <td>${item.name}</td>
                     <td>${item.phone}</td>
                     <td>
                         <div class="action-btns">
-                            <button class="btn-icon btn-edit" onclick="openEdit('${item.meter}')"><i class="fas fa-pen"></i></button>
-                            <button class="btn-icon btn-delete" onclick="deleteRecord('${item.meter}')"><i class="fas fa-trash"></i></button>
+                            <button class="btn-icon btn-edit" onclick="openEdit('${item.meter}')" title="এডিট করুন"><i class="fas fa-pen"></i></button>
+                            <button class="btn-icon btn-delete" onclick="deleteRecord('${item.meter}')" title="ডিলিট করুন"><i class="fas fa-trash"></i></button>
                         </div>
                     </td>
                 </tr>
             `).join('');
         }
 
-        // ---------- গিটহাব API কোর ফাংশন ----------
         async function syncWithGitHub(newArray, commitMessage) {
             const config = JSON.parse(localStorage.getItem('gh_api_config'));
             if (!config || !config.token) {
@@ -273,7 +272,7 @@
 
                 if (putRes.ok) {
                     const resData = await putRes.json();
-                    githubSha = resData.content.sha; // নতুন SHA আপডেট
+                    githubSha = resData.content.sha;
                     cloudData = newArray;
                     renderTable(document.getElementById('searchInput').value);
                     return true;
@@ -284,12 +283,11 @@
             return false;
         }
 
-        // ---------- ডাটা রিড (Load) ----------
         async function loadData() {
             const config = JSON.parse(localStorage.getItem('gh_api_config'));
             if (!config || !config.token) {
                 dbStatus.innerHTML = `<i class="fas fa-exclamation-triangle"></i> API নেই`;
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">API সেটআপ করুন</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">API সেটআপ করুন</td></tr>`;
                 return;
             }
 
@@ -312,7 +310,6 @@
             }
         }
 
-        // ---------- এন্ট্রি যোগ করা ----------
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             submitBtn.disabled = true; submitBtn.innerText = "সেভ হচ্ছে...";
@@ -338,7 +335,6 @@
             submitBtn.disabled = false; submitBtn.innerText = "ক্লাউডে সেভ করুন";
         });
 
-        // ---------- ডিলিট করা ----------
         window.deleteRecord = async function(meter) {
             if (!confirm(`আপনি কি সত্যিই ${meter} রেকর্ডটি ডিলিট করতে চান?`)) return;
             
@@ -349,7 +345,6 @@
             if(success) showToast('সফলভাবে ডিলিট হয়েছে!');
         };
 
-        // ---------- এডিট করা ----------
         window.openEdit = function(meter) {
             const item = cloudData.find(d => d.meter === meter);
             if(!item) return;
@@ -377,12 +372,12 @@
             if (success) { showToast('আপডেট সফল হয়েছে!'); editModal.style.display = 'none'; }
             document.getElementById('saveEditBtn').innerText = "আপডেট করুন";
         });
+        
         document.getElementById('closeEditBtn').addEventListener('click', () => editModal.style.display = 'none');
-
-        // ---------- অন্যান্য ইভেন্ট ----------
         document.getElementById('searchInput').addEventListener('input', (e) => renderTable(e.target.value));
         document.getElementById('settingsBtn').addEventListener('click', () => apiModal.style.display = 'flex');
         document.getElementById('closeApiBtn').addEventListener('click', () => apiModal.style.display = 'none');
+        
         document.getElementById('saveApiBtn').addEventListener('click', () => {
             const user = document.getElementById('ghUsername').value.trim();
             const repo = document.getElementById('ghRepo').value.trim();
