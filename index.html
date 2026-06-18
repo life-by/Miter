@@ -5,31 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover" />
     <title>বিদ্যুত বিল প্রদান - ক্লাউড সিস্টেম</title>
     
-    <!-- PWA Meta Tags (ফিক্স করা হয়েছে) -->
-    <link rel="manifest" href="data:application/json,{
-        &quot;name&quot;: &quot;বিদ্যুত বিল ডাটাবেস&quot;,
-        &quot;short_name&quot;: &quot;বিল ডাটাবেস&quot;,
-        &quot;description&quot;: &quot;বিদ্যুত বিল প্রদান ও গ্রাহক ডাটাবেস&quot;,
-        &quot;start_url&quot;: &quot;.&quot;,
-        &quot;display&quot;: &quot;standalone&quot;,
-        &quot;background_color&quot;: &quot;#f6f9fc&quot;,
-        &quot;theme_color&quot;: &quot;#0b2b4f&quot;,
-        &quot;icons&quot;: [
-            {
-                &quot;src&quot;: &quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230b2b4f'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-size='280' fill='%23f5b042' font-family='Arial'%3E⚡%3C/text%3E%3C/svg%3E&quot;,
-                &quot;sizes&quot;: &quot;512x512&quot;,
-                &quot;type&quot;: &quot;image/svg+xml&quot;
-            },
-            {
-                &quot;src&quot;: &quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230b2b4f'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-size='280' fill='%23f5b042' font-family='Arial'%3E⚡%3C/text%3E%3C/svg%3E&quot;,
-                &quot;sizes&quot;: &quot;192x192&quot;,
-                &quot;type&quot;: &quot;image/svg+xml&quot;
-            }
-        ]
-    }" />
+    <!-- PWA Meta Tags - সম্পূর্ণ ফিক্স -->
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#0b2b4f" />
+    
+    <!-- Manifest - ইনলাইন JSON (কোনো বাহ্যিক ফাইল নেই) -->
+    <script id="manifest" type="application/json">
+    {
+        "name": "বিদ্যুত বিল ডাটাবেস",
+        "short_name": "বিল ডাটাবেস",
+        "description": "বিদ্যুত বিল প্রদান ও গ্রাহক ডাটাবেস ম্যানেজমেন্ট",
+        "start_url": "/Miter/",
+        "display": "standalone",
+        "background_color": "#f6f9fc",
+        "theme_color": "#0b2b4f",
+        "icons": [
+            {
+                "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230b2b4f'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-size='280' fill='%23f5b042' font-family='Arial'%3E⚡%3C/text%3E%3C/svg%3E",
+                "sizes": "512x512",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
+            },
+            {
+                "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230b2b4f'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-size='280' fill='%23f5b042' font-family='Arial'%3E⚡%3C/text%3E%3C/svg%3E",
+                "sizes": "192x192",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
+            }
+        ]
+    }
+    </script>
+    
+    <!-- Apple Touch Icon - ইনলাইন SVG -->
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230b2b4f'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-size='280' fill='%23f5b042' font-family='Arial'%3E⚡%3C/text%3E%3C/svg%3E" />
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
@@ -1112,12 +1121,25 @@
         const statTotal = document.getElementById('totalUsers');
         const statLatest = document.getElementById('latestUser');
 
-        // ---------- PWA ইনস্টল (ফিক্স করা হয়েছে) ----------
+        // ---------- PWA ম্যানুয়াল মেনিফেস্ট ইনজেকশন ----------
+        function injectManifest() {
+            const manifestScript = document.getElementById('manifest');
+            if (manifestScript) {
+                const manifestData = JSON.parse(manifestScript.textContent);
+                const link = document.createElement('link');
+                link.rel = 'manifest';
+                link.href = 'data:application/json,' + encodeURIComponent(JSON.stringify(manifestData));
+                document.head.appendChild(link);
+                console.log('Manifest injected successfully');
+            }
+        }
+        injectManifest();
+
+        // ---------- PWA ইনস্টল ----------
         let deferredPrompt;
         const pwaSection = document.getElementById('pwaInstallSection');
         const pwaBtn = document.getElementById('pwaInstallBtn');
 
-        // beforeinstallprompt ইভেন্ট
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
@@ -1125,7 +1147,6 @@
             console.log('PWA install prompt ready');
         });
 
-        // ইন্সটল বাটন ক্লিক
         pwaBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
                 try {
@@ -1140,27 +1161,16 @@
                     showToast('ইনস্টল করতে সমস্যা!', 'error');
                 }
             } else {
-                // যদি deferredPrompt না থাকে, ম্যানুয়ালি চেষ্টা
-                try {
-                    // কিছু ব্রাউজারে 직접 install() কল করা যায়
-                    if (window.navigator && window.navigator.standalone === false) {
-                        showToast('ব্রাউজার মেনু থেকে "Add to Home Screen" করুন', 'success');
-                    } else {
-                        showToast('এই ব্রাউজারে ইনস্টল সাপোর্ট নেই', 'error');
-                    }
-                } catch (err) {
-                    showToast('ইনস্টল অপশন উপলব্ধ নয়', 'error');
-                }
+                showToast('"Add to Home Screen" ব্যবহার করুন', 'success');
             }
         });
 
-        // অ্যাপ ইনস্টল হলে
         window.addEventListener('appinstalled', () => {
             showToast('অ্যাপ সফলভাবে ইনস্টল হয়েছে! 🎉', 'success');
             pwaSection.classList.remove('show');
         });
 
-        // ---------- টোস্ট ফাংশন ----------
+        // ---------- টোস্ট ----------
         function showToast(msg, type = 'success') {
             toast.textContent = msg;
             toast.className = 'toast-message ' + type;
@@ -1169,7 +1179,7 @@
             toast._timeout = setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // ---------- কপি ফাংশন ----------
+        // ---------- কপি ----------
         function copyToClipboard(text, element) {
             const copy = async () => {
                 try {
@@ -1199,17 +1209,16 @@
             };
             copy();
         }
-
         window.copyToClipboard = copyToClipboard;
 
-        // ---------- ড্যাশবোর্ড আপডেট ----------
+        // ---------- ড্যাশবোর্ড ----------
         function updateDashboard() {
             statGrid.style.display = 'grid';
             statTotal.innerText = cloudData.length;
             statLatest.innerText = cloudData.length > 0 ? cloudData[cloudData.length - 1].name : 'নেই';
         }
 
-        // ---------- টেবিল রেন্ডার ----------
+        // ---------- টেবিল ----------
         function renderTable(filter = '') {
             updateDashboard();
             let items = [...cloudData];
@@ -1338,7 +1347,7 @@
             }
         }
 
-        // ---------- ফর্ম সাবমিট ----------
+        // ---------- ফর্ম ----------
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             submitBtn.disabled = true; 
@@ -1423,7 +1432,7 @@
             document.getElementById('saveEditBtn').innerHTML = 'আপডেট';
         });
 
-        // ---------- ইভেন্ট লিসেনার ----------
+        // ---------- ইভেন্ট ----------
         document.getElementById('closeEditBtn').addEventListener('click', () => editModal.style.display = 'none');
         document.getElementById('searchInput').addEventListener('input', (e) => renderTable(e.target.value));
         document.getElementById('settingsBtn').addEventListener('click', () => apiModal.style.display = 'flex');
@@ -1454,22 +1463,21 @@
             });
         });
 
-        // ---------- অটো লোড ----------
+        // ---------- লোড ----------
         window.addEventListener('load', loadData);
 
-        // ---------- PWA সার্ভিস ওয়ার্কার ----------
+        // ---------- Service Worker ----------
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js')
                 .then(() => console.log('Service Worker Registered'))
-                .catch(() => console.log('Service Worker Registration failed'));
+                .catch(() => console.log('SW Registration failed'));
         }
 
-        // ---------- ডিবাগ: PWA স্ট্যাটাস চেক ----------
-        console.log('PWA Status:', {
-            manifest: document.querySelector('link[rel="manifest"]') ? '✅' : '❌',
-            serviceWorker: 'serviceWorker' in navigator ? '✅' : '❌',
-            beforeinstallprompt: typeof window.beforeinstallprompt !== 'undefined' ? '✅' : '❌'
-        });
+        // ---------- ডিবাগ ----------
+        console.log('✅ PWA Setup Complete');
+        console.log('📱 Manifest:', document.querySelector('link[rel="manifest"]') ? '✅' : '❌');
+        console.log('🔧 Service Worker:', 'serviceWorker' in navigator ? '✅' : '❌');
+        console.log('📦 Install Prompt:', typeof window.beforeinstallprompt !== 'undefined' ? '✅' : '❌');
     })();
 </script>
 </body>
