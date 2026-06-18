@@ -2,76 +2,179 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>বিদ্যুত বিল প্রদান - ক্লাউড সিস্টেম</title>
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#0b2b4f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         /* ---------- রিসেট ও বেসিক ---------- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background: linear-gradient(145deg, #f6f9fc 0%, #e9f0f5 100%); min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; }
+        body { background: linear-gradient(145deg, #f6f9fc 0%, #e9f0f5 100%); min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 20px 12px; }
 
-        .app-container { max-width: 1100px; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-radius: 40px; padding: 35px 30px; box-shadow: 0 30px 60px rgba(0, 20, 40, 0.15); }
+        .app-container { max-width: 1100px; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-radius: 30px; padding: 25px 20px; box-shadow: 0 30px 60px rgba(0, 20, 40, 0.15); }
 
         /* ---------- হেডার ---------- */
-        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid rgba(0, 80, 200, 0.1); gap: 15px;}
-        .header h1 { font-size: 26px; font-weight: 700; color: #0b2b4f; display: flex; align-items: center; gap: 12px; }
+        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid rgba(0, 80, 200, 0.1); gap: 12px;}
+        .header h1 { font-size: 22px; font-weight: 700; color: #0b2b4f; display: flex; align-items: center; gap: 10px; }
         .header h1 i { color: #f5b042; }
-        .header-actions { display: flex; gap: 10px; }
-        .header-badge { padding: 8px 18px; border-radius: 60px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; border: none; display: flex; align-items: center; gap: 8px;}
+        .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .header-badge { padding: 6px 14px; border-radius: 60px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; border: none; display: flex; align-items: center; gap: 6px;}
         .badge-api { background: #f5b042; color: #0b2b4f; }
         .badge-db { background: #b13e4b; color: white; cursor: default; }
 
         /* ---------- ড্যাশবোর্ড স্ট্যাটস ---------- */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .stat-card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; border-left: 5px solid #0b2b4f;}
-        .stat-icon { width: 50px; height: 50px; border-radius: 50%; background: #f0f6fd; color: #2a6bb0; display: flex; justify-content: center; align-items: center; font-size: 20px; }
-        .stat-info h3 { font-size: 22px; color: #0b2b4f; }
-        .stat-info p { font-size: 13px; color: #666; font-weight: 600; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .stat-card { background: white; padding: 16px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 12px; border-left: 5px solid #0b2b4f;}
+        .stat-icon { width: 44px; height: 44px; border-radius: 50%; background: #f0f6fd; color: #2a6bb0; display: flex; justify-content: center; align-items: center; font-size: 18px; flex-shrink: 0; }
+        .stat-info h3 { font-size: 20px; color: #0b2b4f; }
+        .stat-info p { font-size: 12px; color: #666; font-weight: 600; }
 
         /* ---------- ট্যাব ও প্যানেল ---------- */
-        .tabs { display: flex; gap: 6px; background: rgba(0, 0, 0, 0.04); padding: 6px; border-radius: 60px; margin-bottom: 25px; }
-        .tab-btn { flex: 1; padding: 12px; border: none; background: transparent; border-radius: 40px; font-size: 16px; font-weight: 600; color: #3a5a7a; cursor: pointer; transition: 0.25s; }
+        .tabs { display: flex; gap: 4px; background: rgba(0, 0, 0, 0.04); padding: 5px; border-radius: 50px; margin-bottom: 20px; overflow-x: auto; }
+        .tab-btn { flex: 1; padding: 10px; border: none; background: transparent; border-radius: 40px; font-size: 14px; font-weight: 600; color: #3a5a7a; cursor: pointer; transition: 0.25s; white-space: nowrap; min-width: 100px; }
         .tab-btn.active { background: white; color: #0b2b4f; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
         .panel { display: none; animation: fadeSlide 0.3s ease forwards; }
         .panel.active { display: block; }
         @keyframes fadeSlide { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
 
         /* ---------- ফর্ম ---------- */
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: white; padding: 30px; border-radius: 30px; }
-        .form-group { display: flex; flex-direction: column; gap: 6px; }
-        .form-group.full-width { grid-column: 1 / -1; }
-        .form-group label { font-size: 14px; font-weight: 600; color: #1f3a57; }
-        .form-group input { padding: 14px; border: 1.5px solid #dfe8f0; border-radius: 15px; outline: none; }
-        .btn-primary { grid-column: 1 / -1; padding: 15px; background: #0b2b4f; border: none; border-radius: 60px; font-size: 18px; font-weight: bold; color: white; cursor: pointer; transition: 0.2s; }
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 16px; background: white; padding: 24px 20px; border-radius: 24px; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group label { font-size: 13px; font-weight: 600; color: #1f3a57; }
+        .form-group input { padding: 12px 14px; border: 1.5px solid #dfe8f0; border-radius: 14px; outline: none; font-size: 15px; }
+        .btn-primary { padding: 14px; background: #0b2b4f; border: none; border-radius: 50px; font-size: 17px; font-weight: bold; color: white; cursor: pointer; transition: 0.2s; }
         .btn-primary:disabled { background: #8da0b8; cursor: not-allowed; }
 
         /* ---------- টেবিল ও একশন বাটন ---------- */
-        .search-box { margin-bottom: 20px; }
-        .search-box input { width: 100%; padding: 14px; border: 1.5px solid #dfe8f0; border-radius: 60px; outline: none; }
-        .table-wrap { overflow-x: auto; border-radius: 20px; background: white; padding: 10px; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { background: #f0f6fd; padding: 15px; color: #1f3a57; }
-        td { padding: 15px; border-bottom: 1px solid #eaeef5; }
-        .action-btns { display: flex; gap: 8px; }
-        .btn-icon { width: 35px; height: 35px; border-radius: 10px; border: none; color: white; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center;}
+        .search-box { margin-bottom: 16px; }
+        .search-box input { width: 100%; padding: 12px 16px; border: 1.5px solid #dfe8f0; border-radius: 50px; outline: none; font-size: 15px; }
+        .table-wrap { overflow-x: auto; border-radius: 18px; background: white; padding: 8px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        th { background: #f0f6fd; padding: 12px 10px; color: #1f3a57; font-size: 13px; }
+        td { padding: 12px 10px; border-bottom: 1px solid #eaeef5; }
+        
+        /* কপি বাটন স্টাইল */
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: #2a6bb0;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 6px;
+            transition: 0.2s;
+            font-size: 14px;
+            margin-left: 4px;
+        }
+        .copy-btn:hover {
+            background: #e8f0fe;
+            transform: scale(1.1);
+        }
+        .copy-btn.copied {
+            color: #1d7a4f;
+        }
+        
+        .cell-with-copy {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .cell-with-copy span {
+            word-break: break-all;
+        }
+
+        .action-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+        .btn-icon { width: 32px; height: 32px; border-radius: 8px; border: none; color: white; cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; font-size: 13px;}
         .btn-edit { background: #2a6bb0; }
         .btn-delete { background: #b13e4b; }
         .btn-icon:hover { transform: scale(1.05); }
 
         /* ---------- মডাল ---------- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-box { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; }
-        .modal-box input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 10px; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; padding: 16px; }
+        .modal-box { background: white; padding: 24px 20px; border-radius: 18px; width: 100%; max-width: 400px; }
+        .modal-box h2 { font-size: 20px; margin-bottom: 16px; }
+        .modal-box input { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 10px; font-size: 15px; }
         .modal-btns { display: flex; gap: 10px; }
         .modal-btns button { flex: 1; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; }
         .btn-save { background: #0b2b4f; color: white; }
         .btn-cancel { background: #ccc; color: #333; }
 
         /* ---------- টোস্ট ---------- */
-        .toast-message { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #0b2b4f; color: white; padding: 14px 30px; border-radius: 60px; opacity: 0; transition: 0.4s; z-index: 9999; }
-        .toast-message.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
+        .toast-message { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #0b2b4f; color: white; padding: 12px 24px; border-radius: 50px; opacity: 0; transition: 0.4s; z-index: 9999; font-size: 14px; max-width: 90%; text-align: center; }
+        .toast-message.show { opacity: 1; transform: translateX(-50%) translateY(-8px); }
         .toast-message.success { background: #1d7a4f; }
         .toast-message.error { background: #b13e4b; }
+
+        /* ---------- ইনস্টল বাটন (PWA) ---------- */
+        .install-btn {
+            display: none;
+            background: #1d7a4f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            align-items: center;
+            gap: 6px;
+        }
+        .install-btn:hover {
+            transform: scale(1.05);
+            background: #156b3f;
+        }
+        .install-btn.show {
+            display: inline-flex;
+        }
+
+        /* ---------- মোবাইল ফ্রেন্ডলি ---------- */
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .app-container { padding: 16px 12px; border-radius: 24px; }
+            .header h1 { font-size: 18px; }
+            .header h1 i { font-size: 18px; }
+            .header-badge { font-size: 11px; padding: 5px 10px; }
+            .stats-grid { grid-template-columns: 1fr; gap: 10px; }
+            .stat-card { padding: 14px; }
+            .stat-info h3 { font-size: 18px; }
+            .tab-btn { font-size: 12px; padding: 8px; min-width: 80px; }
+            .form-grid { padding: 18px 14px; }
+            .form-group input { padding: 10px 12px; font-size: 14px; }
+            .btn-primary { padding: 12px; font-size: 15px; }
+            table { font-size: 12px; }
+            th, td { padding: 8px 6px; }
+            .copy-btn { font-size: 12px; padding: 2px 4px; }
+            .btn-icon { width: 28px; height: 28px; font-size: 11px; }
+            .modal-box { padding: 20px 16px; }
+            .modal-box h2 { font-size: 18px; }
+            .toast-message { font-size: 13px; padding: 10px 18px; bottom: 12px; }
+            .cell-with-copy { gap: 2px; }
+            .install-btn { font-size: 11px; padding: 6px 12px; }
+        }
+
+        @media (max-width: 400px) {
+            .header h1 { font-size: 16px; }
+            .tab-btn { font-size: 11px; padding: 6px; min-width: 65px; }
+            table { font-size: 11px; }
+            th, td { padding: 6px 4px; }
+            .action-btns { gap: 4px; }
+        }
+
+        /* টাচ ফ্রেন্ডলি - মোবাইলে বাটন সাইজ */
+        @media (pointer: coarse) {
+            .btn-icon { min-width: 40px; min-height: 40px; }
+            .copy-btn { min-width: 36px; min-height: 36px; }
+            .tab-btn { min-height: 44px; }
+            .header-badge { min-height: 36px; }
+        }
     </style>
 </head>
 <body>
@@ -80,6 +183,7 @@
     <div class="header">
         <h1><i class="fas fa-bolt"></i> বিদ্যুত বিল ডাটাবেস</h1>
         <div class="header-actions">
+            <button id="installBtn" class="install-btn"><i class="fas fa-download"></i> ইনস্টল</button>
             <button id="settingsBtn" class="header-badge badge-api"><i class="fas fa-cog"></i> API সেটিং</button>
             <span class="header-badge badge-db" id="dbStatus"><i class="fas fa-times-circle"></i> অফলাইন</span>
         </div>
@@ -97,7 +201,7 @@
         <div class="stat-card">
             <div class="stat-icon" style="background:#eafaf1; color:#1d7a4f;"><i class="fas fa-user-plus"></i></div>
             <div class="stat-info">
-                <h3 id="latestUser" style="font-size:16px; margin-top:5px;">নেই</h3>
+                <h3 id="latestUser" style="font-size:15px; margin-top:4px;">নেই</h3>
                 <p>সর্বশেষ এন্ট্রি</p>
             </div>
         </div>
@@ -119,7 +223,7 @@
                 <label>গ্রাহকের নাম</label>
                 <input type="text" id="customerName" required />
             </div>
-            <div class="form-group full-width">
+            <div class="form-group">
                 <label>ফোন নম্বর</label>
                 <input type="tel" id="phoneNumber" placeholder="017XXXXXXXX" required />
             </div>
@@ -154,7 +258,7 @@
 <!-- API মডাল -->
 <div id="apiModal" class="modal-overlay">
     <div class="modal-box">
-        <h2>GitHub Setup</h2>
+        <h2><i class="fas fa-cloud"></i> GitHub Setup</h2>
         <input type="text" id="ghUsername" placeholder="GitHub Username" />
         <input type="text" id="ghRepo" placeholder="Repository Name" />
         <input type="password" id="ghToken" placeholder="Token (ghp_...)" />
@@ -202,11 +306,80 @@
         const statTotal = document.getElementById('totalUsers');
         const statLatest = document.getElementById('latestUser');
 
+        // ---------- PWA ইনস্টল ----------
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.classList.add('show');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const result = await deferredPrompt.userChoice;
+                if (result.outcome === 'accepted') {
+                    showToast('অ্যাপ ইনস্টল হয়েছে!', 'success');
+                }
+                deferredPrompt = null;
+                installBtn.classList.remove('show');
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            showToast('অ্যাপ সফলভাবে ইনস্টল হয়েছে!', 'success');
+            installBtn.classList.remove('show');
+        });
+
         function showToast(msg, type = 'success') {
             toast.textContent = msg;
             toast.className = 'toast-message ' + type;
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ---------- কপি ফাংশন ----------
+        function copyToClipboard(text, element) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    element.classList.add('copied');
+                    element.innerHTML = '<i class="fas fa-check"></i>';
+                    showToast('কপি হয়েছে!', 'success');
+                    setTimeout(() => {
+                        element.classList.remove('copied');
+                        element.innerHTML = '<i class="fas fa-copy"></i>';
+                    }, 2000);
+                }).catch(() => {
+                    fallbackCopy(text, element);
+                });
+            } else {
+                fallbackCopy(text, element);
+            }
+        }
+
+        function fallbackCopy(text, element) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-9999px';
+            textArea.style.top = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                element.classList.add('copied');
+                element.innerHTML = '<i class="fas fa-check"></i>';
+                showToast('কপি হয়েছে!', 'success');
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                    element.innerHTML = '<i class="fas fa-copy"></i>';
+                }, 2000);
+            } catch (err) {
+                showToast('কপি করা সম্ভব হয়নি', 'error');
+            }
+            document.body.removeChild(textArea);
         }
 
         function updateDashboard() {
@@ -219,7 +392,7 @@
             }
         }
 
-        // ---------- টেবিল রেন্ডার (সিরিয়াল নম্বর সহ) ----------
+        // ---------- টেবিল রেন্ডার (কপি বাটন সহ) ----------
         function renderTable(filter = '') {
             updateDashboard();
             let items = [...cloudData];
@@ -227,22 +400,37 @@
             
             if (term !== '') {
                 items = items.filter(item => 
-                    item.meter.toLowerCase().includes(term) || item.name.toLowerCase().includes(term) || item.phone.includes(term)
+                    item.meter.toLowerCase().includes(term) || 
+                    item.name.toLowerCase().includes(term) || 
+                    item.phone.includes(term)
                 );
             }
 
             if (items.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">কোনো রেকর্ড পাওয়া যায়নি</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:30px;">কোনো রেকর্ড পাওয়া যায়নি</td></tr>`;
                 return;
             }
 
-            // এখানে idx + 1 দিয়ে সিরিয়াল নম্বর (1, 2, 3...) আনা হয়েছে
             tbody.innerHTML = items.map((item, idx) => `
                 <tr>
                     <td><strong>${idx + 1}</strong></td>
-                    <td><strong>${item.meter}</strong></td>
+                    <td>
+                        <div class="cell-with-copy">
+                            <span><strong>${item.meter}</strong></span>
+                            <button class="copy-btn" onclick="copyToClipboard('${item.meter}', this)" title="কপি করুন">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </td>
                     <td>${item.name}</td>
-                    <td>${item.phone}</td>
+                    <td>
+                        <div class="cell-with-copy">
+                            <span>${item.phone}</span>
+                            <button class="copy-btn" onclick="copyToClipboard('${item.phone}', this)" title="কপি করুন">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </td>
                     <td>
                         <div class="action-btns">
                             <button class="btn-icon btn-edit" onclick="openEdit('${item.meter}')" title="এডিট করুন"><i class="fas fa-pen"></i></button>
@@ -252,6 +440,9 @@
                 </tr>
             `).join('');
         }
+
+        // কপি ফাংশন গ্লোবালি এক্সপোজ
+        window.copyToClipboard = copyToClipboard;
 
         async function syncWithGitHub(newArray, commitMessage) {
             const config = JSON.parse(localStorage.getItem('gh_api_config'));
@@ -276,9 +467,14 @@
                     cloudData = newArray;
                     renderTable(document.getElementById('searchInput').value);
                     return true;
+                } else {
+                    const errData = await putRes.json();
+                    console.error('GitHub API Error:', errData);
+                    showToast(`GitHub এরর: ${errData.message || 'অজানা ত্রুটি'}`, 'error');
                 }
             } catch (error) {
                 console.error(error);
+                showToast('নেটওয়ার্ক সমস্যা!', 'error');
             }
             return false;
         }
@@ -287,12 +483,16 @@
             const config = JSON.parse(localStorage.getItem('gh_api_config'));
             if (!config || !config.token) {
                 dbStatus.innerHTML = `<i class="fas fa-exclamation-triangle"></i> API নেই`;
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">API সেটআপ করুন</td></tr>`;
+                dbStatus.style.background = '#b13e4b';
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:30px;">API সেটআপ করুন</td></tr>`;
                 return;
             }
 
             try {
-                const res = await fetch(`https://api.github.com/repos/${config.user}/${config.repo}/contents/data.json`, { headers: { 'Authorization': `Bearer ${config.token}` } });
+                const res = await fetch(`https://api.github.com/repos/${config.user}/${config.repo}/contents/data.json`, { 
+                    headers: { 'Authorization': `Bearer ${config.token}` } 
+                });
+                
                 if (res.ok) {
                     const data = await res.json();
                     githubSha = data.sha;
@@ -303,16 +503,27 @@
                 } else if (res.status === 404) {
                     cloudData = [];
                     renderTable();
+                    dbStatus.innerHTML = `<i class="fas fa-cloud"></i> কানেক্টেড`;
+                    dbStatus.style.background = '#1d7a4f';
+                } else {
+                    const errData = await res.json();
+                    console.error('Load Error:', errData);
+                    dbStatus.innerHTML = `<i class="fas fa-times"></i> এরর`;
+                    dbStatus.style.background = '#b13e4b';
+                    showToast('ডাটা লোড করতে সমস্যা!', 'error');
                 }
             } catch (e) {
+                console.error(e);
                 dbStatus.innerHTML = `<i class="fas fa-times"></i> এরর`;
                 dbStatus.style.background = '#b13e4b';
+                showToast('নেটওয়ার্ক সমস্যা!', 'error');
             }
         }
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            submitBtn.disabled = true; submitBtn.innerText = "সেভ হচ্ছে...";
+            submitBtn.disabled = true; 
+            submitBtn.innerText = "সেভ হচ্ছে...";
             
             const newItem = {
                 meter: document.getElementById('meterCard').value.trim(),
@@ -320,27 +531,38 @@
                 phone: document.getElementById('phoneNumber').value.trim()
             };
 
+            if (!newItem.meter || !newItem.name || !newItem.phone) {
+                showToast('সব ফিল্ড পূরণ করুন!', 'error');
+                submitBtn.disabled = false; 
+                submitBtn.innerText = "ক্লাউডে সেভ করুন";
+                return;
+            }
+
             if (cloudData.some(d => d.meter.toLowerCase() === newItem.meter.toLowerCase())) {
                 showToast('এই মিটার নম্বর ইতিমধ্যে আছে!', 'error');
-                submitBtn.disabled = false; submitBtn.innerText = "ক্লাউডে সেভ করুন";
+                submitBtn.disabled = false; 
+                submitBtn.innerText = "ক্লাউডে সেভ করুন";
                 return;
             }
 
             const updatedArray = [...cloudData, newItem];
             const success = await syncWithGitHub(updatedArray, `Added ${newItem.name}`);
             
-            if (success) { showToast('ডাটা সেভ হয়েছে!'); form.reset(); }
-            else { showToast('সেভ হতে সমস্যা হয়েছে!', 'error'); }
+            if (success) { 
+                showToast('ডাটা সেভ হয়েছে!'); 
+                form.reset(); 
+            } else { 
+                showToast('সেভ হতে সমস্যা হয়েছে!', 'error'); 
+            }
             
-            submitBtn.disabled = false; submitBtn.innerText = "ক্লাউডে সেভ করুন";
+            submitBtn.disabled = false; 
+            submitBtn.innerText = "ক্লাউডে সেভ করুন";
         });
 
         window.deleteRecord = async function(meter) {
             if (!confirm(`আপনি কি সত্যিই ${meter} রেকর্ডটি ডিলিট করতে চান?`)) return;
             
             const updatedArray = cloudData.filter(d => d.meter !== meter);
-            showToast('ডিলিট হচ্ছে...', 'success');
-            
             const success = await syncWithGitHub(updatedArray, `Deleted ${meter}`);
             if(success) showToast('সফলভাবে ডিলিট হয়েছে!');
         };
@@ -361,6 +583,11 @@
             const newName = document.getElementById('editName').value.trim();
             const newPhone = document.getElementById('editPhone').value.trim();
 
+            if (!newName || !newPhone) {
+                showToast('নাম ও ফোন পূরণ করুন!', 'error');
+                return;
+            }
+
             const updatedArray = cloudData.map(d => {
                 if (d.meter === meter) return { meter, name: newName, phone: newPhone };
                 return d;
@@ -369,7 +596,10 @@
             document.getElementById('saveEditBtn').innerText = "আপডেট হচ্ছে...";
             const success = await syncWithGitHub(updatedArray, `Updated ${meter}`);
             
-            if (success) { showToast('আপডেট সফল হয়েছে!'); editModal.style.display = 'none'; }
+            if (success) { 
+                showToast('আপডেট সফল হয়েছে!'); 
+                editModal.style.display = 'none'; 
+            }
             document.getElementById('saveEditBtn').innerText = "আপডেট করুন";
         });
         
@@ -383,7 +613,9 @@
             const repo = document.getElementById('ghRepo').value.trim();
             const token = document.getElementById('ghToken').value.trim();
             localStorage.setItem('gh_api_config', JSON.stringify({user, repo, token}));
-            apiModal.style.display = 'none'; loadData();
+            apiModal.style.display = 'none'; 
+            showToast('API সেটআপ সম্পন্ন!', 'success');
+            loadData();
         });
 
         document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -395,6 +627,13 @@
         });
 
         window.addEventListener('load', loadData);
+
+        // ---------- PWA - Service Worker রেজিস্টার ----------
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('Service Worker Registered'))
+                .catch(err => console.log('SW Registration failed:', err));
+        }
     })();
 </script>
 </body>
