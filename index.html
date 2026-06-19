@@ -431,21 +431,22 @@
             vertical-align: middle;
         }
         
-        /* কপি বাটন */
+        /* কপি বাটন - ফিক্স: এক লাইনে রাখার জন্য white-space: nowrap */
         .copy-btn {
             background: transparent;
             border: none;
             color: #2a6bb0;
             cursor: pointer;
-            padding: 6px 8px;
+            padding: 4px 6px;
             border-radius: 8px;
             transition: 0.2s;
             font-size: clamp(13px, 2.5vw, 15px);
-            min-width: 36px;
-            min-height: 36px;
+            min-width: 30px;
+            min-height: 30px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
         
         .copy-btn:active {
@@ -460,19 +461,25 @@
         .cell-with-copy {
             display: flex;
             align-items: center;
-            gap: 2px;
-            flex-wrap: nowrap;
+            gap: 4px;
+            flex-wrap: nowrap;   /* এক লাইনে থাকবে */
+            white-space: nowrap; /* টেক্সট র‍্যাপ হবে না */
         }
         
         .cell-with-copy span {
-            word-break: break-word;
+            word-break: keep-all; /* শব্দ ভাঙবে না */
             font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px; /* মোবাইলে বেশি লম্বা হলে ... দেখাবে */
         }
 
         .action-btns { 
             display: flex; 
             gap: 6px; 
-            flex-wrap: wrap; 
+            flex-wrap: nowrap; 
+            align-items: center;
         }
         
         .btn-icon { 
@@ -489,6 +496,7 @@
             font-size: 14px;
             min-width: 38px;
             min-height: 38px;
+            flex-shrink: 0;
         }
         
         .btn-icon:active {
@@ -712,18 +720,24 @@
                 padding: 8px 5px; 
             }
             
+            /* মোবাইলে সেলের কন্টেন্ট এক লাইনে থাকবে */
+            .cell-with-copy span {
+                max-width: 80px; /* ছোট স্ক্রিনে আরও কম */
+                font-size: 11px;
+            }
+            
             .copy-btn { 
-                min-width: 30px; 
-                min-height: 30px; 
-                padding: 4px 6px;
-                font-size: 12px;
+                min-width: 28px; 
+                min-height: 28px; 
+                padding: 2px 4px;
+                font-size: 11px;
             }
             
             .btn-icon { 
                 width: 30px; 
                 height: 30px; 
-                min-width: 34px; 
-                min-height: 34px;
+                min-width: 32px; 
+                min-height: 32px;
                 font-size: 12px;
             }
             
@@ -783,6 +797,11 @@
             
             th, td { 
                 padding: 6px 4px; 
+            }
+            
+            .cell-with-copy span {
+                max-width: 60px;
+                font-size: 10px;
             }
             
             .stat-card { 
@@ -1242,7 +1261,7 @@
                     <td><strong>${idx + 1}</strong></td>
                     <td>
                         <div class="cell-with-copy">
-                            <span>${item.meter}</span>
+                            <span title="${item.meter}">${item.meter}</span>
                             <button class="copy-btn" onclick="copyToClipboard('${item.meter}', this)" title="কপি">
                                 <i class="fas fa-copy"></i>
                             </button>
@@ -1251,7 +1270,7 @@
                     <td>${item.name}</td>
                     <td>
                         <div class="cell-with-copy">
-                            <span>${item.phone}</span>
+                            <span title="${item.phone}">${item.phone}</span>
                             <button class="copy-btn" onclick="copyToClipboard('${item.phone}', this)" title="কপি">
                                 <i class="fas fa-copy"></i>
                             </button>
