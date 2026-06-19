@@ -11,32 +11,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="theme-color" content="#0b2b4f" />
     
-    <!-- Manifest - ইনলাইন JSON (কোনো বাহ্যিক ফাইল নেই) -->
-    <script id="manifest" type="application/json">
-    {
-        "name": "বিদ্যুত বিল ডাটাবেস",
-        "short_name": "বিল ডাটাবেস",
-        "description": "বিদ্যুত বিল প্রদান ও গ্রাহক ডাটাবেস ম্যানেজমেন্ট",
-        "start_url": "/Miter/",
-        "display": "standalone",
-        "background_color": "#f6f9fc",
-        "theme_color": "#0b2b4f",
-        "icons": [
-            {
-                "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230b2b4f'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-size='280' fill='%23f5b042' font-family='Arial'%3E⚡%3C/text%3E%3C/svg%3E",
-                "sizes": "512x512",
-                "type": "image/svg+xml",
-                "purpose": "any maskable"
-            },
-            {
-                "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230b2b4f'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-size='280' fill='%23f5b042' font-family='Arial'%3E⚡%3C/text%3E%3C/svg%3E",
-                "sizes": "192x192",
-                "type": "image/svg+xml",
-                "purpose": "any maskable"
-            }
-        ]
-    }
-    </script>
+    <!-- Manifest - সরাসরি ইনলাইন JSON (বাহ্যিক ফাইল নয়) -->
+    <link rel="manifest" href='data:application/json,{"name":"বিদ্যুত বিল ডাটাবেস","short_name":"বিল ডাটাবেস","description":"বিদ্যুত বিল প্রদান ও গ্রাহক ডাটাবেস ম্যানেজমেন্ট","start_url":"/Miter/","display":"standalone","background_color":"#f6f9fc","theme_color":"#0b2b4f","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\'%3E%3Crect width=\'512\' height=\'512\' fill=\'%230b2b4f\'/%3E%3Ctext x=\'256\' y=\'340\' text-anchor=\'middle\' font-size=\'280\' fill=\'%23f5b042\' font-family=\'Arial\'%3E⚡%3C/text%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml","purpose":"any maskable"},{"src":"data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 512 512\'%3E%3Crect width=\'512\' height=\'512\' fill=\'%230b2b4f\'/%3E%3Ctext x=\'256\' y=\'340\' text-anchor=\'middle\' font-size=\'280\' fill=\'%23f5b042\' font-family=\'Arial\'%3E⚡%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml","purpose":"any maskable"}]}' />
     
     <!-- Apple Touch Icon - ইনলাইন SVG -->
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230b2b4f'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-size='280' fill='%23f5b042' font-family='Arial'%3E⚡%3C/text%3E%3C/svg%3E" />
@@ -431,7 +407,26 @@
             vertical-align: middle;
         }
         
-        /* কপি বাটন - ফিক্স: এক লাইনে রাখার জন্য white-space: nowrap */
+        /* ফিক্স: সেলের কন্টেন্ট এক লাইনে রাখা */
+        .cell-with-copy {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+            min-width: 0;
+        }
+        
+        .cell-with-copy span {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100px;
+            flex-shrink: 1;
+            min-width: 30px;
+        }
+        
         .copy-btn {
             background: transparent;
             border: none;
@@ -440,9 +435,9 @@
             padding: 4px 6px;
             border-radius: 8px;
             transition: 0.2s;
-            font-size: clamp(13px, 2.5vw, 15px);
-            min-width: 30px;
-            min-height: 30px;
+            font-size: clamp(12px, 2vw, 14px);
+            min-width: 28px;
+            min-height: 28px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -457,35 +452,18 @@
         .copy-btn.copied {
             color: #1d7a4f;
         }
-        
-        .cell-with-copy {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            flex-wrap: nowrap;   /* এক লাইনে থাকবে */
-            white-space: nowrap; /* টেক্সট র‍্যাপ হবে না */
-        }
-        
-        .cell-with-copy span {
-            word-break: keep-all; /* শব্দ ভাঙবে না */
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 120px; /* মোবাইলে বেশি লম্বা হলে ... দেখাবে */
-        }
 
         .action-btns { 
             display: flex; 
-            gap: 6px; 
+            gap: 4px; 
             flex-wrap: nowrap; 
             align-items: center;
         }
         
         .btn-icon { 
-            width: 34px; 
-            height: 34px; 
-            border-radius: 10px; 
+            width: 32px; 
+            height: 32px; 
+            border-radius: 8px; 
             border: none; 
             color: white; 
             cursor: pointer; 
@@ -493,9 +471,9 @@
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            font-size: 14px;
-            min-width: 38px;
-            min-height: 38px;
+            font-size: 13px;
+            min-width: 34px;
+            min-height: 34px;
             flex-shrink: 0;
         }
         
@@ -720,25 +698,24 @@
                 padding: 8px 5px; 
             }
             
-            /* মোবাইলে সেলের কন্টেন্ট এক লাইনে থাকবে */
             .cell-with-copy span {
-                max-width: 80px; /* ছোট স্ক্রিনে আরও কম */
+                max-width: 70px;
                 font-size: 11px;
             }
             
             .copy-btn { 
-                min-width: 28px; 
-                min-height: 28px; 
+                min-width: 26px; 
+                min-height: 26px; 
                 padding: 2px 4px;
                 font-size: 11px;
             }
             
             .btn-icon { 
-                width: 30px; 
-                height: 30px; 
-                min-width: 32px; 
-                min-height: 32px;
-                font-size: 12px;
+                width: 28px; 
+                height: 28px; 
+                min-width: 30px; 
+                min-height: 30px;
+                font-size: 11px;
             }
             
             .modal-box { 
@@ -800,7 +777,7 @@
             }
             
             .cell-with-copy span {
-                max-width: 60px;
+                max-width: 50px;
                 font-size: 10px;
             }
             
@@ -1139,20 +1116,6 @@
         const statGrid = document.getElementById('dashboardStats');
         const statTotal = document.getElementById('totalUsers');
         const statLatest = document.getElementById('latestUser');
-
-        // ---------- PWA ম্যানুয়াল মেনিফেস্ট ইনজেকশন ----------
-        function injectManifest() {
-            const manifestScript = document.getElementById('manifest');
-            if (manifestScript) {
-                const manifestData = JSON.parse(manifestScript.textContent);
-                const link = document.createElement('link');
-                link.rel = 'manifest';
-                link.href = 'data:application/json,' + encodeURIComponent(JSON.stringify(manifestData));
-                document.head.appendChild(link);
-                console.log('Manifest injected successfully');
-            }
-        }
-        injectManifest();
 
         // ---------- PWA ইনস্টল ----------
         let deferredPrompt;
