@@ -20,5 +20,14 @@
     "companyName": "প্রান",
     "srName": "রোহান",
     "phone": "01885694852"
+  },
+  {
+    "id": "bkash_1782132371434",
+    "type": "bkash",
+    "date": "2026-06-22",
+    "srGiven": "5000",
+    "srTaken": "0",
+    "customerTx": "7000",
+    "note": ""
   }
 ]
