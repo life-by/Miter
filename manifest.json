@@ -2,20 +2,16 @@
   "name": "বিদ্যুত বিল ডাটাবেস",
   "short_name": "বিল ডাটাবেস",
   "description": "বিদ্যুত বিল প্রদান ও গ্রাহক ডাটাবেস ম্যানেজমেন্ট সিস্টেম",
-  "start_url": ".",
+  "start_url": "./",
   "display": "standalone",
-  "background_color": "#f6f9fc",
-  "theme_color": "#0b2b4f",
+  "background_color": "#f1f5f9",
+  "theme_color": "#0f172a",
   "icons": [
     {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230f172a'/%3E%3Ctext x='256' y='340' text-anchor='middle' font-size='280' fill='%23f59e0b' font-family='Arial'%3E⚡%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ]
 }
