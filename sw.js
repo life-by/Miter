@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bill-db-v1';
+const CACHE_NAME = 'bill-db-v2';
 const urlsToCache = [
   '.',
   'index.html',
