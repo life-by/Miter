@@ -73,7 +73,7 @@
       line-height: 1.6;
     }
     .app { max-width: 1140px; margin: 0 auto; padding: 0 16px; }
-    /* ===== HEADER (existing) ===== */
+    /* ===== HEADER ===== */
     .app-header {
       background: linear-gradient(145deg, #0a1628 0%, #1a2a44 100%);
       border-radius: 0 0 var(--radius) var(--radius);
@@ -216,18 +216,20 @@
       width: 4px;
       height: 100%;
       border-radius: 0 4px 4px 0;
+      background: var(--primary-light);
     }
     .stat-card:nth-child(1)::before { background: var(--accent); }
     .stat-card:nth-child(2)::before { background: var(--success); }
     .stat-card:nth-child(3)::before { background: var(--purple); }
-    .stat-card:nth-child(4)::before { background: var(--danger); }
+    .stat-card:nth-child(4)::before { background: var(--success); } /* Cash */
+    .stat-card:nth-child(5)::before { background: var(--danger); }
     .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
     .stat-card .stat-info { display: flex; flex-direction: column; gap: 2px; }
     .stat-card .stat-info h3 { font-size: 24px; font-weight: 700; color: var(--text); line-height: 1.2; }
     .stat-card .stat-info p { font-size: 13px; color: var(--text-muted); font-weight: 500; }
     .stat-card .stat-icon { position: absolute; right: 16px; top: 16px; font-size: 22px; opacity: 0.12; color: var(--text); }
 
-    /* ===== TABS (existing) ===== */
+    /* ===== TABS ===== */
     .tabs {
       display: flex;
       flex-wrap: wrap;
@@ -344,7 +346,7 @@
     .btn-primary.success { background: var(--success); }
     .btn-primary.purple { background: var(--purple); }
     .btn-primary.danger { background: var(--danger); }
-    .btn-primary.due { background: #0f766e; } /* due teal */
+    .btn-primary.due { background: #0f766e; }
 
     /* ===== VIEW BAR ===== */
     .view-bar {
@@ -383,6 +385,9 @@
       transition: var(--transition);
       box-shadow: var(--shadow-sm);
     }
+    .search-box input[type="month"] {
+      padding-left: 20px;
+    }
     .search-box input:focus {
       outline: none;
       border-color: var(--accent);
@@ -411,7 +416,7 @@
     }
     .search-box .clear-btn.show { opacity: 1; pointer-events: auto; }
     .search-box .clear-btn:hover { background: var(--text-muted); color: #fff; }
-    /* ===== TABLE (existing) ===== */
+    /* ===== TABLE ===== */
     .table-wrap {
       background: var(--surface);
       border-radius: var(--radius);
@@ -442,7 +447,7 @@
     .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
     .empty-state i { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
     .empty-state p { font-size: 15px; font-weight: 500; }
-    /* ===== BOTTOM NAV (existing) ===== */
+    /* ===== BOTTOM NAV ===== */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -460,18 +465,13 @@
     }
     .bottom-nav .nav-item {
       display: flex; flex-direction: column; align-items: center; gap: 2px; background: none; border: none;
-      color: var(--text-muted); font-size: 10px; font-weight: 600; cursor: pointer; padding: 4px 12px;
+      color: var(--text-muted); font-size: 10px; font-weight: 600; cursor: pointer; padding: 4px 10px;
       transition: var(--transition); position: relative; font-family: var(--font);
     }
     .bottom-nav .nav-item i { font-size: 20px; transition: var(--transition); }
     .bottom-nav .nav-item.active { color: var(--accent); }
     .bottom-nav .nav-item.active i { transform: translateY(-2px); }
-    .bottom-nav .nav-item .badge {
-      position: absolute; top: -2px; right: 2px; background: var(--danger); color: #fff;
-      font-size: 8px; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center;
-      justify-content: center; font-weight: 700;
-    }
-    /* ===== FAB (existing) ===== */
+    /* ===== FAB ===== */
     .fab {
       position: fixed; bottom: 80px; right: 24px; width: 60px; height: 60px; border-radius: 50%;
       background: var(--accent); color: #0a1628; border: none; font-size: 28px;
@@ -554,7 +554,6 @@
       .form-card { padding: 18px; }
       .form-grid { grid-template-columns: 1fr; gap: 14px; }
       .form-grid .full-width { grid-column: 1; }
-      /* Mobile card view for table */
       table, thead, tbody, th, td, tr { display: block; width: 100%; }
       thead tr { position: absolute; top: -9999px; left: -9999px; }
       tr { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 14px; padding: 6px 0; box-shadow: var(--shadow-sm); }
@@ -566,7 +565,7 @@
       .modal-box { padding: 24px 20px; }
       .pwa-banner { flex-direction: column; align-items: flex-start; padding: 16px 18px; }
       .pwa-banner .btn-install { width: 100%; justify-content: center; }
-      .bottom-nav .nav-item { font-size: 9px; padding: 2px 8px; }
+      .bottom-nav .nav-item { font-size: 9px; padding: 2px 6px; }
       .bottom-nav .nav-item i { font-size: 18px; }
       .fab { width: 52px; height: 52px; font-size: 24px; bottom: 76px; right: 18px; }
       .fab-menu { bottom: 140px; right: 18px; }
@@ -714,7 +713,7 @@
 <body>
 <div class="app">
 
-  <!-- HEADER (unchanged) -->
+  <!-- HEADER -->
   <header class="app-header">
     <div class="brand">
       <div class="logo">
@@ -740,7 +739,7 @@
     <button id="pwaInstallBtn" class="btn-install"><i class="fas fa-download"></i> ইনস্টল</button>
   </div>
 
-  <!-- STATS (existing + due stats) -->
+  <!-- STATS -->
   <div class="stats" id="dashboardStats">
     <div class="stat-card">
       <div class="stat-info"><h3 id="statTotalMeters">0</h3><p>মোট মিটার</p></div>
@@ -754,7 +753,13 @@
       <div class="stat-info"><h3 id="statTotalTx">৳0</h3><p>আজকের লেনদেন</p></div>
       <div class="stat-icon"><i class="fas fa-wallet"></i></div>
     </div>
-    <!-- New Due Stats -->
+    <!-- New Stat for Daily Cash -->
+    <div class="stat-card">
+      <div class="stat-info"><h3 id="statCashInHand" style="color:var(--success);">৳0</h3><p>বর্তমান ক্যাশ</p></div>
+      <div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div>
+    </div>
+    
+    <!-- Due Stats -->
     <div class="stat-card">
       <div class="stat-info"><h3 id="statDueTotal">৳0</h3><p>মোট বাকি</p></div>
       <div class="stat-icon"><i class="fas fa-hand-holding-usd"></i></div>
@@ -773,16 +778,17 @@
     </div>
   </div>
 
-  <!-- TABS (added "বাকি") -->
+  <!-- TABS -->
   <div class="tabs" id="mainTabs">
     <button class="tab-btn active" data-tab="tabMeter"><i class="fas fa-plus-circle"></i> <span>মিটার</span></button>
     <button class="tab-btn" data-tab="tabCompany"><i class="fas fa-building"></i> <span>কোম্পানি</span></button>
     <button class="tab-btn" data-tab="tabBkash"><i class="fas fa-wallet"></i> <span>বিকাশ</span></button>
     <button class="tab-btn" data-tab="tabDatabase"><i class="fas fa-database"></i> <span>ডাটাবেস</span></button>
     <button class="tab-btn" data-tab="tabDue"><i class="fas fa-hand-holding-usd"></i> <span>বাকি</span></button>
+    <button class="tab-btn" data-tab="tabDaily"><i class="fas fa-book"></i> <span>দৈনিক হিসাব</span></button>
   </div>
 
-  <!-- PANEL: METER (unchanged) -->
+  <!-- PANEL: METER -->
   <div id="tabMeter" class="panel active">
     <div class="form-card">
       <div class="form-title"><i class="fas fa-bolt"></i> নতুন মিটার যোগ</div>
@@ -795,7 +801,7 @@
     </div>
   </div>
 
-  <!-- PANEL: COMPANY (unchanged) -->
+  <!-- PANEL: COMPANY -->
   <div id="tabCompany" class="panel">
     <div class="form-card">
       <div class="form-title"><i class="fas fa-building" style="color:var(--success);"></i> কোম্পানি / SR যোগ</div>
@@ -808,7 +814,7 @@
     </div>
   </div>
 
-  <!-- PANEL: BKASH (unchanged) -->
+  <!-- PANEL: BKASH -->
   <div id="tabBkash" class="panel">
     <div class="form-card">
       <div class="form-title"><i class="fas fa-wallet" style="color:var(--purple);"></i> বিকাশ লেনদেন</div>
@@ -823,7 +829,7 @@
     </div>
   </div>
 
-  <!-- PANEL: DATABASE (unchanged) -->
+  <!-- PANEL: DATABASE -->
   <div id="tabDatabase" class="panel">
     <div class="view-bar">
       <button class="view-btn active" data-view="meter">মিটার বিল</button>
@@ -845,9 +851,8 @@
     </div>
   </div>
 
-  <!-- ===== NEW PANEL: DUE ===== -->
+  <!-- PANEL: DUE -->
   <div id="tabDue" class="panel">
-    <!-- Tabs inside Due: Customer List, New Customer, New Due, Report -->
     <div class="view-bar" style="margin-bottom:16px;">
       <button class="view-btn active due-view-btn" data-dueview="list">📋 কাস্টমার লিস্ট</button>
       <button class="view-btn due-view-btn" data-dueview="addcustomer">➕ নতুন কাস্টমার</button>
@@ -855,7 +860,6 @@
       <button class="view-btn due-view-btn" data-dueview="report">📊 রিপোর্ট</button>
     </div>
 
-    <!-- Due: Customer List -->
     <div id="dueList" class="due-view-content">
       <div class="search-box">
         <i class="fas fa-search search-icon"></i>
@@ -883,7 +887,6 @@
       </div>
     </div>
 
-    <!-- Due: Add Customer -->
     <div id="dueAddCustomer" class="due-view-content" style="display:none;">
       <div class="form-card">
         <div class="form-title"><i class="fas fa-user-plus"></i> নতুন কাস্টমার</div>
@@ -897,7 +900,6 @@
       </div>
     </div>
 
-    <!-- Due: Add Due -->
     <div id="dueAddDue" class="due-view-content" style="display:none;">
       <div class="form-card">
         <div class="form-title"><i class="fas fa-hand-holding-usd"></i> নতুন বাকি যোগ</div>
@@ -915,7 +917,6 @@
       </div>
     </div>
 
-    <!-- Due: Report -->
     <div id="dueReport" class="due-view-content" style="display:none;">
       <div class="due-report-grid" id="dueReportGrid"></div>
       <div class="form-card" style="margin-top:20px;">
@@ -925,12 +926,48 @@
     </div>
   </div>
 
-  <!-- BOTTOM NAV (unchanged) -->
+  <!-- PANEL: DAILY ACCOUNTS -->
+  <div id="tabDaily" class="panel">
+    <div class="view-bar" style="margin-bottom:16px;">
+      <button class="view-btn active daily-view-btn" data-dailyview="entry">➕ নতুন এন্ট্রি</button>
+      <button class="view-btn daily-view-btn" data-dailyview="report">📊 মাসিক রিপোর্ট</button>
+    </div>
+
+    <!-- Daily Entry Form -->
+    <div id="dailyEntry" class="daily-view-content">
+      <div class="form-card">
+        <div class="form-title"><i class="fas fa-book"></i> দৈনিক হিসাব এন্ট্রি</div>
+        <form id="dailyForm" class="form-grid">
+          <div class="form-group full-width"><label><i class="far fa-calendar-alt"></i> তারিখ *</label><input type="date" id="dailyDate" required /></div>
+          <div class="form-group"><label><i class="fas fa-plus-circle" style="color:var(--success);"></i> আজকের আয় (জমা)</label><input type="number" id="dailyIncome" placeholder="0" value="0" /><i class="fas fa-plus-circle input-icon" style="color:var(--success);"></i></div>
+          <div class="form-group"><label><i class="fas fa-minus-circle" style="color:var(--danger);"></i> আজকের ব্যয় (খরচ)</label><input type="number" id="dailyExpense" placeholder="0" value="0" /><i class="fas fa-minus-circle input-icon" style="color:var(--danger);"></i></div>
+          <div class="form-group full-width"><label><i class="fas fa-pen"></i> নোট / কীসের খরচ</label><input type="text" id="dailyNote" placeholder="যেমন: চা নাস্তা, দোকানের ভাড়া..." autocomplete="off" /><i class="fas fa-pen input-icon"></i></div>
+          <div class="full-width"><button type="submit" id="submitDailyBtn" class="btn-primary"><i class="fas fa-save"></i> হিসাব সেভ করুন</button></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Daily Report Section -->
+    <div id="dailyReport" class="daily-view-content" style="display:none;">
+      <div class="search-box">
+        <input type="month" id="dailyMonthPicker" style="width:100%; border-radius:var(--radius-full); border:1.5px solid var(--border);" />
+      </div>
+      <div class="due-report-grid" id="dailyReportSummary"></div>
+      
+      <div class="form-card" style="margin-top:20px;">
+        <div class="form-title"><i class="fas fa-list"></i> এই মাসের প্রতিদিনের হিসাব</div>
+        <div id="dailyBreakdown"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <button class="nav-item active" data-nav="dashboard"><i class="fas fa-chart-pie"></i><span>ড্যাশ</span></button>
     <button class="nav-item" data-nav="meter"><i class="fas fa-bolt"></i><span>মিটার</span></button>
     <button class="nav-item" data-nav="company"><i class="fas fa-building"></i><span>কোম্পানি</span></button>
     <button class="nav-item" data-nav="bkash"><i class="fas fa-wallet"></i><span>বিকাশ</span></button>
+    <button class="nav-item" data-nav="daily"><i class="fas fa-book"></i><span>হিসাব</span></button>
     <button class="nav-item" data-nav="settings"><i class="fas fa-cog"></i><span>সেটিংস</span></button>
   </nav>
 
@@ -940,11 +977,12 @@
     <button class="fab-item" data-fab="meter"><i class="fas fa-bolt"></i> নতুন মিটার</button>
     <button class="fab-item" data-fab="company"><i class="fas fa-building"></i> নতুন কোম্পানি</button>
     <button class="fab-item" data-fab="bkash"><i class="fas fa-wallet"></i> নতুন লেনদেন</button>
+    <button class="fab-item" data-fab="daily"><i class="fas fa-book"></i> নতুন হিসাব</button>
   </div>
 </div>
 
 <!-- ===== MODALS ===== -->
-<!-- API MODAL (unchanged) -->
+<!-- API MODAL -->
 <div id="apiModal" class="modal-overlay">
   <div class="modal-box">
     <h2><i class="fab fa-github" style="color:var(--accent);"></i> GitHub API</h2>
@@ -955,7 +993,7 @@
   </div>
 </div>
 
-<!-- EDIT METER MODAL (unchanged) -->
+<!-- EDIT METER MODAL -->
 <div id="editModal" class="modal-overlay">
   <div class="modal-box">
     <h2><i class="fas fa-pen-square" style="color:var(--accent);"></i> মিটার আপডেট</h2>
@@ -967,7 +1005,7 @@
   </div>
 </div>
 
-<!-- CONFIRM MODAL (unchanged) -->
+<!-- CONFIRM MODAL -->
 <div id="confirmModal" class="modal-overlay">
   <div class="modal-box" style="max-width:380px;">
     <h2 style="color:var(--danger);"><i class="fas fa-exclamation-triangle"></i> নিশ্চিত করুন</h2>
@@ -1030,7 +1068,7 @@
       }).catch(() => showToast('কপি ব্যর্থ', 'error'));
     };
 
-    // ----- GitHub sync (unchanged) -----
+    // ----- GitHub sync -----
     async function syncWithGitHub(newArray, commitMessage) {
       const config = JSON.parse(localStorage.getItem('gh_api_config'));
       if (!config || !config.token) { showToast('API সেটআপ করুন', 'error'); return false; }
@@ -1049,13 +1087,14 @@
           renderTable(searchInput.value);
           updateDashboard();
           renderDueAll();
+          renderDailyAll();
           return true;
         } else { const err = await putRes.json(); showToast(`GitHub: ${err.message || 'error'}`, 'error'); }
       } catch (e) { showToast('Network error', 'error'); }
       return false;
     }
 
-    // ----- Load data (unchanged) -----
+    // ----- Load data -----
     async function loadData() {
       const config = JSON.parse(localStorage.getItem('gh_api_config'));
       if (!config || !config.token) {
@@ -1080,6 +1119,7 @@
           renderTable(searchInput.value);
           updateDashboard();
           renderDueAll();
+          renderDailyAll();
         } else if (res.status === 404) {
           cloudData = [];
           dbStatus.innerHTML = `<i class="fas fa-cloud"></i> <span>খালি</span>`;
@@ -1087,6 +1127,7 @@
           renderTable(searchInput.value);
           updateDashboard();
           renderDueAll();
+          renderDailyAll();
         } else { throw new Error('API error'); }
       } catch (e) {
         dbStatus.innerHTML = `<i class="fas fa-wifi-slash"></i> <span>অফলাইন</span>`;
@@ -1096,7 +1137,7 @@
       }
     }
 
-    // ----- Dashboard (existing + due) -----
+    // ----- Dashboard -----
     function updateDashboard() {
       document.getElementById('dashboardStats').classList.add('show');
       const meters = cloudData.filter(d => !d.type || d.type === 'meter').length;
@@ -1125,7 +1166,6 @@
         if (balance > 0) dueCustWithDue++;
         else if (balance === 0 && cTx.length > 0) paidFull++;
         totalDue += balance;
-        // today paid
         cTx.forEach(t => {
           if (t.date === todayStr) { todayPaid += Number(t.paid || 0); }
         });
@@ -1134,9 +1174,17 @@
       document.getElementById('statDueToday').innerText = '৳' + todayPaid;
       document.getElementById('statDueCustomers').innerText = dueCustWithDue;
       document.getElementById('statPaidFull').innerText = paidFull;
+
+      // Daily Cash stats
+      const dailyAccounts = cloudData.filter(d => d.type === 'dailyAccount');
+      let totalCash = 0;
+      dailyAccounts.forEach(d => {
+        totalCash += (Number(d.income || 0) - Number(d.expense || 0));
+      });
+      document.getElementById('statCashInHand').innerText = '৳' + totalCash;
     }
 
-    // ----- Render table (unchanged) -----
+    // ----- Render table -----
     function renderTable(filter = '') {
       const term = filter.trim().toLowerCase();
       let items = cloudData.filter(item => {
@@ -1197,12 +1245,9 @@
     }
 
     // ===== DUE SYSTEM =====
-
-    // Get due customers
     function getDueCustomers() { return cloudData.filter(d => d.type === 'dueCustomer'); }
     function getDueTransactions() { return cloudData.filter(d => d.type === 'dueTransaction'); }
 
-    // Calculate customer balance
     function calcCustomerBalance(customerId) {
       const txs = getDueTransactions().filter(t => t.customerId === customerId);
       let total = 0, paid = 0;
@@ -1214,7 +1259,6 @@
       return getDueTransactions().filter(t => t.customerId === customerId).sort((a,b) => new Date(a.date) - new Date(b.date));
     }
 
-    // Render due customer list
     function renderDueCustomers(filter = '') {
       const term = filter.trim().toLowerCase();
       let customers = getDueCustomers();
@@ -1249,7 +1293,6 @@
           }
           return false;
         });
-        const isPaid = balance === 0 && txs.length > 0;
         return `
           <div class="due-customer-card" onclick="openLedger('${c.id}')">
             <div class="name">${c.name} ${overdue ? '<span class="badge-overdue">⚠️ 30+ দিন</span>' : ''}</div>
@@ -1267,7 +1310,6 @@
       }).join('');
     }
 
-    // Open ledger
     window.openLedger = function(customerId) {
       selectedDueCustomerId = customerId;
       const customer = getDueCustomers().find(c => c.id === customerId);
@@ -1300,37 +1342,44 @@
       document.getElementById('dueLedgerContainer').scrollIntoView({ behavior: 'smooth' });
     };
 
-    // Submit payment
     window.submitPayment = function() {
       if (!selectedDueCustomerId) { showToast('কাস্টমার নির্বাচন করুন', 'error'); return; }
       const amount = parseFloat(document.getElementById('payAmount').value);
       if (!amount || amount <= 0) { showToast('সঠিক টাকা লিখুন', 'error'); return; }
       const note = document.getElementById('payNote').value.trim();
       const today = new Date().toISOString().split('T')[0];
-      const now = new Date();
-      const time = now.toTimeString().slice(0,5);
       const newTx = {
         id: 'dueTx_' + Date.now(),
         type: 'dueTransaction',
         customerId: selectedDueCustomerId,
         date: today,
-        time: time,
         total: 0,
         paid: amount,
         product: 'টাকা আদায়',
         note: note || 'পেমেন্ট',
         isPayment: true
       };
-      const updated = [...cloudData, newTx];
+      
+      // Auto Add Income Feature: if daily accounts is requested to integrate with due payment
+      const newDailyIncome = {
+        id: 'daily_' + Date.now() + '_auto',
+        type: 'dailyAccount',
+        date: today,
+        income: amount,
+        expense: 0,
+        note: `বাকি আদায় (${getDueCustomers().find(c=>c.id===selectedDueCustomerId)?.name || 'কাস্টমার'})`,
+        createdAt: new Date().toISOString()
+      };
+
+      const updated = [...cloudData, newTx, newDailyIncome]; // integrated income
       syncWithGitHub(updated, 'Payment received').then(() => {
         document.getElementById('payAmount').value = '';
         document.getElementById('payNote').value = '';
-        showToast('টাকা আদায় হয়েছে!');
+        showToast('টাকা আদায় এবং ইনকাম সেভ হয়েছে!');
         openLedger(selectedDueCustomerId);
       });
     };
 
-    // Render due report
     function renderDueReport() {
       const customers = getDueCustomers();
       const txs = getDueTransactions();
@@ -1346,7 +1395,6 @@
         const balance = due - paid;
         totalDue += balance;
         if (balance > topDue.amount) { topDue = { name: c.name, amount: balance }; }
-        // today paid
         cTx.forEach(t => {
           if (t.date === today) { todayPaid += Number(t.paid || 0); }
           if (t.date >= monthStart) { monthPaid += Number(t.paid || 0); }
@@ -1361,7 +1409,6 @@
         <div class="due-report-card"><div class="label">সবচেয়ে বেশি বাকি</div><div class="value">${topDue.name || '—'} (৳${topDue.amount})</div></div>
         <div class="due-report-card"><div class="label">সবচেয়ে বেশি আদায়</div><div class="value">${topPaid.name || '—'} (৳${topPaid.amount})</div></div>
       `;
-      // Leaderboard
       const lb = document.getElementById('dueLeaderboard');
       const sorted = customers.map(c => {
         const cTx = txs.filter(t => t.customerId === c.id);
@@ -1375,11 +1422,9 @@
       }
     }
 
-    // Render all due views
     function renderDueAll() {
       renderDueCustomers(document.getElementById('dueSearch').value);
       renderDueReport();
-      // populate customer select
       const sel = document.getElementById('dueTxCustomer');
       const customers = getDueCustomers();
       sel.innerHTML = `<option value="">নির্বাচন করুন</option>` + customers.map(c => `<option value="${c.id}">${c.name} (${c.phone})</option>`).join('');
@@ -1389,7 +1434,6 @@
       }
     }
 
-    // Due view tabs
     document.querySelectorAll('.due-view-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         document.querySelectorAll('.due-view-btn').forEach(b => b.classList.remove('active'));
@@ -1403,7 +1447,6 @@
       });
     });
 
-    // Due search
     document.getElementById('dueSearch').addEventListener('input', function() {
       renderDueCustomers(this.value);
       document.getElementById('clearDueSearch').classList.toggle('show', this.value.length > 0);
@@ -1414,31 +1457,25 @@
       this.classList.remove('show');
     });
 
-    // Due Customer Form
     document.getElementById('dueCustomerForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const btn = document.getElementById('submitDueCustBtn');
       btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> সেভ...';
       const name = document.getElementById('dueCustName').value.trim();
       const phone = document.getElementById('dueCustPhone').value.trim();
-      if (!name || !phone) { showToast('নাম ও মোবাইল প্রয়োজন', 'error'); btn.disabled=false; btn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> কাস্টমার সেভ করুন'; return; }
+      if (!name || !phone) { showToast('নাম ও মোবাইল প্রয়োজন', 'error'); btn.disabled=false; return; }
       const newCust = {
-        id: 'dueCust_' + Date.now(),
-        type: 'dueCustomer',
-        name, phone,
+        id: 'dueCust_' + Date.now(), type: 'dueCustomer', name, phone,
         address: document.getElementById('dueCustAddr').value.trim(),
         note: document.getElementById('dueCustNote').value.trim(),
         createdAt: new Date().toISOString()
       };
       if (await syncWithGitHub([...cloudData, newCust], `Add Due Customer: ${name}`)) {
-        showToast('কাস্টমার যোগ হয়েছে');
-        this.reset();
-        renderDueAll();
+        showToast('কাস্টমার যোগ হয়েছে'); this.reset(); renderDueAll();
       }
       btn.disabled = false; btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> কাস্টমার সেভ করুন';
     });
 
-    // Due Transaction Form
     document.getElementById('dueTransactionForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const btn = document.getElementById('submitDueTxBtn');
@@ -1446,28 +1483,22 @@
       const customerId = document.getElementById('dueTxCustomer').value;
       const total = parseFloat(document.getElementById('dueTxTotal').value);
       const paid = parseFloat(document.getElementById('dueTxPaid').value) || 0;
-      if (!customerId || !total || total <= 0) { showToast('কাস্টমার ও মোট টাকা প্রয়োজন', 'error'); btn.disabled=false; btn.innerHTML='<i class="fas fa-cloud-upload-alt"></i> বাকি সেভ করুন'; return; }
+      if (!customerId || !total || total <= 0) { showToast('কাস্টমার ও মোট টাকা প্রয়োজন', 'error'); btn.disabled=false; return; }
       const newTx = {
-        id: 'dueTx_' + Date.now(),
-        type: 'dueTransaction',
-        customerId,
+        id: 'dueTx_' + Date.now(), type: 'dueTransaction', customerId,
         product: document.getElementById('dueTxProduct').value.trim(),
-        total: total,
-        paid: paid,
+        total: total, paid: paid,
         date: document.getElementById('dueTxDate').value,
         note: document.getElementById('dueTxNote').value.trim(),
         createdAt: new Date().toISOString()
       };
       if (await syncWithGitHub([...cloudData, newTx], `Add Due: ${total}`)) {
-        showToast('বাকি যোগ হয়েছে');
-        this.reset();
-        document.getElementById('dueTxDate').valueAsDate = new Date();
-        renderDueAll();
+        showToast('বাকি যোগ হয়েছে'); this.reset();
+        document.getElementById('dueTxDate').valueAsDate = new Date(); renderDueAll();
       }
       btn.disabled = false; btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> বাকি সেভ করুন';
     });
 
-    // Edit Due Customer
     window.openDueEdit = function(id) {
       const c = getDueCustomers().find(d => d.id === id);
       if (!c) return;
@@ -1497,8 +1528,121 @@
       }
     });
 
-    // Delete override for dueCustomer
-    const origConfirmDelete = window.confirmDelete;
+    // ===== DAILY ACCOUNTS SYSTEM =====
+    function renderDailyReport(monthStr) {
+      const allAccounts = cloudData.filter(d => d.type === 'dailyAccount');
+      let openingBalance = 0;
+      let monthIncome = 0;
+      let monthExpense = 0;
+
+      const monthAccounts = [];
+
+      allAccounts.forEach(d => {
+        const inc = Number(d.income || 0);
+        const exp = Number(d.expense || 0);
+        if (d.date.startsWith(monthStr)) {
+          monthAccounts.push(d);
+          monthIncome += inc;
+          monthExpense += exp;
+        } else if (d.date < monthStr + '-00') {
+          openingBalance += (inc - exp);
+        }
+      });
+
+      const closingBalance = openingBalance + monthIncome - monthExpense;
+
+      document.getElementById('dailyReportSummary').innerHTML = `
+        <div class="due-report-card"><div class="label">পূর্বের জের (Opening)</div><div class="value">৳${openingBalance}</div></div>
+        <div class="due-report-card"><div class="label">এই মাসের মোট আয়</div><div class="value" style="color:var(--success);">+৳${monthIncome}</div></div>
+        <div class="due-report-card"><div class="label">এই মাসের মোট ব্যয়</div><div class="value" style="color:var(--danger);">-৳${monthExpense}</div></div>
+        <div class="due-report-card"><div class="label">মাস শেষে ক্যাশ</div><div class="value">৳${closingBalance}</div></div>
+      `;
+
+      // Sort descending by date
+      monthAccounts.sort((a,b) => new Date(b.date) - new Date(a.date) || b.createdAt.localeCompare(a.createdAt));
+
+      const breakdownContainer = document.getElementById('dailyBreakdown');
+      if (monthAccounts.length === 0) {
+        breakdownContainer.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding: 20px;">এই মাসের কোনো হিসাব নেই</p>';
+      } else {
+        breakdownContainer.innerHTML = `<ul style="list-style:none;padding:0;">${monthAccounts.map(a => `
+          <li style="padding:16px 0;border-bottom:1px solid var(--border);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <strong style="font-size:14px;color:var(--text-secondary);">${a.date}</strong>
+              <button class="btn-icon btn-delete" style="width:28px;height:28px;font-size:12px;background:var(--danger);" onclick="confirmDelete('${a.id}', 'dailyAccount')"><i class="fas fa-trash"></i></button>
+            </div>
+            <div style="font-size:15px;color:var(--text);margin-bottom:8px;font-weight:500;">
+              ${a.note || 'কোনো নোট নেই'}
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;">
+              <span style="color:var(--success);">আয়: ৳${a.income || 0}</span>
+              <span style="color:var(--danger);">ব্যয়: ৳${a.expense || 0}</span>
+            </div>
+          </li>
+        `).join('')}</ul>`;
+      }
+    }
+
+    function renderDailyAll() {
+      const picker = document.getElementById('dailyMonthPicker');
+      if(!picker.value) {
+        const now = new Date();
+        picker.value = now.toISOString().slice(0, 7); // YYYY-MM
+      }
+      renderDailyReport(picker.value);
+    }
+
+    document.getElementById('dailyMonthPicker').addEventListener('change', function() {
+      renderDailyReport(this.value);
+    });
+
+    document.querySelectorAll('.daily-view-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.daily-view-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const view = this.dataset.dailyview;
+        document.querySelectorAll('.daily-view-content').forEach(el => el.style.display = 'none');
+        const map = { entry: 'dailyEntry', report: 'dailyReport' };
+        document.getElementById(map[view]).style.display = 'block';
+        if (view === 'report') renderDailyAll();
+      });
+    });
+
+    document.getElementById('dailyForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitDailyBtn');
+      btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> সেভ...';
+
+      const date = document.getElementById('dailyDate').value;
+      const income = parseFloat(document.getElementById('dailyIncome').value) || 0;
+      const expense = parseFloat(document.getElementById('dailyExpense').value) || 0;
+      const note = document.getElementById('dailyNote').value.trim();
+
+      if (!date) { showToast('তারিখ প্রয়োজন', 'error'); btn.disabled=false; return; }
+      if (income === 0 && expense === 0) { showToast('আয় বা ব্যয় যে কোনো একটি লিখুন', 'error'); btn.disabled=false; return; }
+
+      const newEntry = {
+        id: 'daily_' + Date.now(),
+        type: 'dailyAccount',
+        date,
+        income,
+        expense,
+        note,
+        createdAt: new Date().toISOString()
+      };
+
+      if (await syncWithGitHub([...cloudData, newEntry], `Add Daily Account: ${date}`)) {
+        showToast('দৈনিক হিসাব সেভ হয়েছে!');
+        document.getElementById('dailyIncome').value = '0';
+        document.getElementById('dailyExpense').value = '0';
+        document.getElementById('dailyNote').value = '';
+        renderDailyAll();
+      }
+      btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> হিসাব সেভ করুন';
+    });
+
+
+    // Delete functionality globally
     window.confirmDelete = function(identifier, keyType) {
       pendingDelete = { identifier, keyType };
       document.getElementById('confirmModal').style.display = 'flex';
@@ -1516,9 +1660,11 @@
       if (keyType === 'meter' || keyType === 'id') {
         updated = cloudData.filter(d => d.id !== identifier && d.meter !== identifier);
       } else if (keyType === 'dueCustomer') {
-        // delete customer and their transactions
         updated = cloudData.filter(d => d.id !== identifier && d.customerId !== identifier);
+      } else if (keyType === 'dailyAccount') {
+        updated = cloudData.filter(d => d.id !== identifier);
       }
+      
       document.getElementById('confirmModal').style.display = 'none';
       if (await syncWithGitHub(updated, `Delete record`)) {
         showToast('ডিলিট হয়েছে!');
@@ -1527,36 +1673,33 @@
           document.getElementById('dueLedgerContainer').style.display = 'none';
         }
         renderDueAll();
+        renderDailyAll();
       }
       pendingDelete = null;
     });
 
-    // Export PDF (simplified)
-    window.exportLedgerPDF = function() {
-      showToast('PDF export (print কমান্ড ব্যবহার করুন)', 'success');
-      window.print();
-    };
+    window.exportLedgerPDF = function() { showToast('PDF export (print কমান্ড ব্যবহার করুন)', 'success'); window.print(); };
     window.shareLedger = function() {
-      if (navigator.share) {
-        navigator.share({ title: 'লেনদেন', text: document.getElementById('ledgerCustomerName').innerText + '\n' + document.getElementById('ledgerRows').innerText });
-      } else {
-        showToast('শেয়ার সাপোর্ট নেই', 'error');
-      }
+      if (navigator.share) { navigator.share({ title: 'লেনদেন', text: document.getElementById('ledgerCustomerName').innerText + '\n' + document.getElementById('ledgerRows').innerText }); } 
+      else { showToast('শেয়ার সাপোর্ট নেই', 'error'); }
     };
 
-    // ===== EXISTING UI LISTENERS (unchanged) =====
+    // ===== EXISTING UI LISTENERS =====
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         document.querySelectorAll('.tab-btn, .panel').forEach(el => el.classList.remove('active'));
         this.classList.add('active');
         document.getElementById(this.dataset.tab).classList.add('active');
         if (this.dataset.tab === 'tabDue') renderDueAll();
+        if (this.dataset.tab === 'tabDaily') renderDailyAll();
       });
     });
 
     document.querySelectorAll('.view-btn').forEach(btn => {
+      // Exclude due and daily view buttons
+      if(btn.classList.contains('due-view-btn') || btn.classList.contains('daily-view-btn')) return;
       btn.addEventListener('click', function() {
-        document.querySelectorAll('.view-btn').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.view-btn:not(.due-view-btn):not(.daily-view-btn)').forEach(el => el.classList.remove('active'));
         this.classList.add('active');
         currentView = this.dataset.view;
         renderTable(searchInput.value);
@@ -1575,6 +1718,7 @@
         else if (nav === 'meter') { document.querySelector('.tab-btn[data-tab="tabMeter"]')?.click(); }
         else if (nav === 'company') { document.querySelector('.tab-btn[data-tab="tabCompany"]')?.click(); }
         else if (nav === 'bkash') { document.querySelector('.tab-btn[data-tab="tabBkash"]')?.click(); }
+        else if (nav === 'daily') { document.querySelector('.tab-btn[data-tab="tabDaily"]')?.click(); }
         else if (nav === 'settings') { document.getElementById('settingsBtn').click(); }
       });
     });
@@ -1592,13 +1736,12 @@
         if (target === 'meter') document.querySelector('.tab-btn[data-tab="tabMeter"]')?.click();
         else if (target === 'company') document.querySelector('.tab-btn[data-tab="tabCompany"]')?.click();
         else if (target === 'bkash') document.querySelector('.tab-btn[data-tab="tabBkash"]')?.click();
+        else if (target === 'daily') document.querySelector('.tab-btn[data-tab="tabDaily"]')?.click();
+        
         document.getElementById('tabDatabase')?.classList.remove('active');
-        document.querySelector(`.tab-btn[data-tab="tab${target.charAt(0).toUpperCase() + target.slice(1)}"]`)?.classList.add('active');
-        document.getElementById(`tab${target.charAt(0).toUpperCase() + target.slice(1)}`)?.classList.add('active');
       });
     });
 
-    // API Modal
     document.getElementById('settingsBtn').addEventListener('click', () => {
       const c = JSON.parse(localStorage.getItem('gh_api_config')) || {};
       document.getElementById('ghUsername').value = c.user || '';
@@ -1622,7 +1765,6 @@
       modal.addEventListener('click', function(e) { if (e.target === this) this.style.display = 'none'; });
     });
 
-    // meter form
     document.getElementById('meterForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('submitMeterBtn');
@@ -1647,6 +1789,9 @@
     });
 
     document.getElementById('bkashDate').valueAsDate = new Date();
+    document.getElementById('dueTxDate').valueAsDate = new Date();
+    document.getElementById('dailyDate').valueAsDate = new Date();
+
     document.getElementById('bkashForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('submitBkashBtn');
