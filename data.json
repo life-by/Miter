@@ -29,14 +29,5 @@
     "srTaken": "0",
     "customerTx": "7000",
     "note": ""
-  },
-  {
-    "id": "daily_1782882147291",
-    "type": "dailyAccount",
-    "date": "2026-06-29",
-    "income": 1350,
-    "expense": 100,
-    "note": "",
-    "createdAt": "2026-07-01T05:02:27.291Z"
   }
 ]
