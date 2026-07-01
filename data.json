@@ -29,5 +29,14 @@
     "srTaken": "0",
     "customerTx": "7000",
     "note": ""
+  },
+  {
+    "id": "daily_1782907562798",
+    "type": "dailyAccount",
+    "date": "2026-06-30",
+    "income": 1000,
+    "expense": 0,
+    "note": "বাড়ি নিছি(১হাজার)",
+    "createdAt": "2026-07-01T12:06:02.798Z"
   }
 ]
