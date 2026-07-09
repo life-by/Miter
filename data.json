@@ -38,5 +38,14 @@
     "expense": 0,
     "note": "বাড়ি নিছি(১হাজার)",
     "createdAt": "2026-07-01T12:06:02.798Z"
+  },
+  {
+    "id": "daily_1783614038469",
+    "type": "dailyAccount",
+    "date": "2026-07-08",
+    "income": 1490,
+    "expense": 0,
+    "note": "",
+    "createdAt": "2026-07-09T16:20:38.473Z"
   }
 ]
