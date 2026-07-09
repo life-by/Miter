@@ -49,15 +49,6 @@
     "createdAt": "2026-07-02T12:30:13.220Z"
   },
   {
-    "id": "daily_1783165850493",
-    "type": "dailyAccount",
-    "date": "2026-07-03",
-    "income": 1,
-    "expense": 0,
-    "note": "",
-    "createdAt": "2026-07-04T11:50:50.493Z"
-  },
-  {
     "id": "daily_1783266155528",
     "type": "dailyAccount",
     "date": "2026-07-02",
