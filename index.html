@@ -220,9 +220,8 @@
     }
     .stat-card:nth-child(1)::before { background: var(--accent); }
     .stat-card:nth-child(2)::before { background: var(--success); }
-    .stat-card:nth-child(3)::before { background: var(--purple); }
-    .stat-card:nth-child(4)::before { background: var(--success); } /* Cash */
-    .stat-card:nth-child(5)::before { background: var(--danger); }
+    .stat-card:nth-child(3)::before { background: var(--success); } /* Cash */
+    .stat-card:nth-child(4)::before { background: var(--danger); }
     .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
     .stat-card .stat-info { display: flex; flex-direction: column; gap: 2px; }
     .stat-card .stat-info h3 { font-size: 24px; font-weight: 700; color: var(--text); line-height: 1.2; }
@@ -749,10 +748,6 @@
       <div class="stat-info"><h3 id="statTotalCompanies">0</h3><p>কোম্পানি</p></div>
       <div class="stat-icon"><i class="fas fa-building"></i></div>
     </div>
-    <div class="stat-card">
-      <div class="stat-info"><h3 id="statTotalTx">৳0</h3><p>আজকের লেনদেন</p></div>
-      <div class="stat-icon"><i class="fas fa-wallet"></i></div>
-    </div>
     <!-- New Stat for Daily Cash -->
     <div class="stat-card">
       <div class="stat-info"><h3 id="statCashInHand" style="color:var(--success);">৳0</h3><p>বর্তমান ক্যাশ</p></div>
@@ -782,7 +777,6 @@
   <div class="tabs" id="mainTabs">
     <button class="tab-btn active" data-tab="tabMeter"><i class="fas fa-plus-circle"></i> <span>মিটার</span></button>
     <button class="tab-btn" data-tab="tabCompany"><i class="fas fa-building"></i> <span>কোম্পানি</span></button>
-    <button class="tab-btn" data-tab="tabBkash"><i class="fas fa-wallet"></i> <span>বিকাশ</span></button>
     <button class="tab-btn" data-tab="tabDatabase"><i class="fas fa-database"></i> <span>ডাটাবেস</span></button>
     <button class="tab-btn" data-tab="tabDue"><i class="fas fa-hand-holding-usd"></i> <span>বাকি</span></button>
     <button class="tab-btn" data-tab="tabDaily"><i class="fas fa-book"></i> <span>দৈনিক হিসাব</span></button>
@@ -814,27 +808,11 @@
     </div>
   </div>
 
-  <!-- PANEL: BKASH -->
-  <div id="tabBkash" class="panel">
-    <div class="form-card">
-      <div class="form-title"><i class="fas fa-wallet" style="color:var(--purple);"></i> বিকাশ লেনদেন</div>
-      <form id="bkashForm" class="form-grid">
-        <div class="form-group full-width"><label><i class="far fa-calendar-alt"></i> তারিখ</label><input type="date" id="bkashDate" required /><i class="fas fa-calendar input-icon"></i></div>
-        <div class="form-group"><label><i class="fas fa-arrow-down" style="color:var(--success);"></i> SR থেকে নিছি (In)</label><input type="number" id="bkashIn" placeholder="0" value="0" /><i class="fas fa-arrow-down input-icon" style="color:var(--success);"></i></div>
-        <div class="form-group"><label><i class="fas fa-arrow-up" style="color:var(--danger);"></i> SR কে দিছি (Out)</label><input type="number" id="bkashOut" placeholder="0" value="0" /><i class="fas fa-arrow-up input-icon" style="color:var(--danger);"></i></div>
-        <div class="form-group"><label><i class="fas fa-handshake"></i> কাস্টমার Tx</label><input type="number" id="bkashCus" placeholder="0" value="0" /><i class="fas fa-handshake input-icon"></i></div>
-        <div class="form-group full-width"><label><i class="fas fa-pen"></i> নোট / মন্তব্য</label><input type="text" id="bkashNote" placeholder="বিস্তারিত..." autocomplete="off" /><i class="fas fa-pen input-icon"></i></div>
-        <div class="full-width"><button type="submit" id="submitBkashBtn" class="btn-primary purple"><i class="fas fa-cloud-upload-alt"></i> লেনদেন সেভ করুন</button></div>
-      </form>
-    </div>
-  </div>
-
   <!-- PANEL: DATABASE -->
   <div id="tabDatabase" class="panel">
     <div class="view-bar">
       <button class="view-btn active" data-view="meter">মিটার বিল</button>
       <button class="view-btn" data-view="company">কোম্পানি</button>
-      <button class="view-btn" data-view="bkash">বিকাশ</button>
     </div>
     <div class="search-box">
       <i class="fas fa-search search-icon"></i>
@@ -966,7 +944,6 @@
     <button class="nav-item active" data-nav="dashboard"><i class="fas fa-chart-pie"></i><span>ড্যাশ</span></button>
     <button class="nav-item" data-nav="meter"><i class="fas fa-bolt"></i><span>মিটার</span></button>
     <button class="nav-item" data-nav="company"><i class="fas fa-building"></i><span>কোম্পানি</span></button>
-    <button class="nav-item" data-nav="bkash"><i class="fas fa-wallet"></i><span>বিকাশ</span></button>
     <button class="nav-item" data-nav="daily"><i class="fas fa-book"></i><span>হিসাব</span></button>
     <button class="nav-item" data-nav="settings"><i class="fas fa-cog"></i><span>সেটিংস</span></button>
   </nav>
@@ -976,7 +953,6 @@
   <div class="fab-menu" id="fabMenu">
     <button class="fab-item" data-fab="meter"><i class="fas fa-bolt"></i> নতুন মিটার</button>
     <button class="fab-item" data-fab="company"><i class="fas fa-building"></i> নতুন কোম্পানি</button>
-    <button class="fab-item" data-fab="bkash"><i class="fas fa-wallet"></i> নতুন লেনদেন</button>
     <button class="fab-item" data-fab="daily"><i class="fas fa-book"></i> নতুন হিসাব</button>
   </div>
 </div>
@@ -1024,6 +1000,22 @@
     <label>ঠিকানা</label><input type="text" id="dueEditAddr" />
     <label>মন্তব্য</label><input type="text" id="dueEditNote" />
     <div class="modal-btns"><button class="btn-cancel" onclick="document.getElementById('dueEditModal').style.display='none'">বাতিল</button><button id="saveDueEditBtn" class="btn-save"><i class="fas fa-save"></i> আপডেট</button></div>
+  </div>
+</div>
+
+<!-- DAILY ACCOUNTS EDIT MODAL -->
+<div id="dailyEditModal" class="modal-overlay">
+  <div class="modal-box">
+    <h2><i class="fas fa-edit"></i> দৈনিক হিসাব আপডেট</h2>
+    <input type="hidden" id="dailyEditId" />
+    <label>তারিখ *</label><input type="date" id="dailyEditDate" required />
+    <label>আয় (জমা)</label><input type="number" id="dailyEditIncome" />
+    <label>ব্যয় (খরচ)</label><input type="number" id="dailyEditExpense" />
+    <label>নোট / কীসের খরচ</label><input type="text" id="dailyEditNote" />
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="document.getElementById('dailyEditModal').style.display='none'">বাতিল</button>
+      <button id="saveDailyEditBtn" class="btn-save"><i class="fas fa-save"></i> আপডেট</button>
+    </div>
   </div>
 </div>
 
@@ -1142,12 +1134,9 @@
       document.getElementById('dashboardStats').classList.add('show');
       const meters = cloudData.filter(d => !d.type || d.type === 'meter').length;
       const companies = cloudData.filter(d => d.type === 'company').length;
-      const today = new Date().toISOString().split('T')[0];
-      let todayBkash = cloudData.filter(d => d.type === 'bkash' && d.date === today)
-        .reduce((sum, d) => sum + Number(d.customerTx || 0) + Number(d.srGiven || 0) + Number(d.srTaken || 0), 0);
+      
       document.getElementById('statTotalMeters').innerText = meters;
       document.getElementById('statTotalCompanies').innerText = companies;
-      document.getElementById('statTotalTx').innerText = '৳' + todayBkash;
 
       // Due stats
       const dueCustomers = cloudData.filter(d => d.type === 'dueCustomer');
@@ -1193,16 +1182,13 @@
       });
       if (term) { items = items.filter(i => Object.values(i).some(val => String(val).toLowerCase().includes(term))); }
       if (items.length === 0) {
-        const emptyMsg = currentView === 'meter' ? 'কোনো মিটার নেই' : currentView === 'company' ? 'কোনো কোম্পানি নেই' : 'কোনো লেনদেন নেই';
+        const emptyMsg = currentView === 'meter' ? 'কোনো মিটার নেই' : 'কোনো কোম্পানি নেই';
         if (currentView === 'meter') {
           thead.innerHTML = `<tr><th>#</th><th>মিটার কার্ড</th><th>গ্রাহকের নাম</th><th>ফোন নম্বর</th><th style="text-align:right;">একশন</th></tr>`;
           tbody.innerHTML = `<tr><td colspan="5" class="empty-state"><i class="fas fa-bolt"></i><p>${emptyMsg}</p></td></tr>`;
         } else if (currentView === 'company') {
           thead.innerHTML = `<tr><th>#</th><th>কোম্পানি</th><th>SR এর নাম</th><th>ফোন নম্বর</th><th style="text-align:right;">একশন</th></tr>`;
           tbody.innerHTML = `<tr><td colspan="5" class="empty-state"><i class="fas fa-building"></i><p>${emptyMsg}</p></td></tr>`;
-        } else {
-          thead.innerHTML = `<tr><th>তারিখ</th><th>SR নিছি (In)</th><th>SR দিছি (Out)</th><th>কাস্টমার Tx</th><th>নোট</th><th style="text-align:right;">ডিলিট</th></tr>`;
-          tbody.innerHTML = `<tr><td colspan="6" class="empty-state"><i class="fas fa-wallet"></i><p>${emptyMsg}</p></td></tr>`;
         }
         return;
       }
@@ -1225,19 +1211,6 @@
             <td data-label="কোম্পানি">${i.companyName}</td>
             <td data-label="SR এর নাম">${i.srName}</td>
             <td data-label="ফোন"><div class="cell-content"><span>${i.phone}</span><button class="copy-btn" onclick="copyToClipboard('${i.phone}', this)"><i class="fas fa-copy"></i></button></div></td>
-            <td data-label="একশন"><div class="action-btns"><button class="btn-icon btn-delete" onclick="confirmDelete('${i.id}', 'id')"><i class="fas fa-trash"></i></button></div></td>
-          </tr>
-        `).join('');
-      } else if (currentView === 'bkash') {
-        thead.innerHTML = `<tr><th>তারিখ</th><th>SR নিছি (In)</th><th>SR দিছি (Out)</th><th>কাস্টমার Tx</th><th>নোট</th><th style="text-align:right;">ডিলিট</th></tr>`;
-        const reversed = [...items].reverse();
-        tbody.innerHTML = reversed.map(i => `
-          <tr>
-            <td data-label="তারিখ"><strong>${i.date}</strong></td>
-            <td data-label="SR নিছি"><span style="color:var(--success);font-weight:700;">৳${i.srGiven}</span></td>
-            <td data-label="SR দিছি"><span style="color:var(--danger);font-weight:700;">৳${i.srTaken}</span></td>
-            <td data-label="কাস্টমার Tx">৳${i.customerTx}</td>
-            <td data-label="নোট">${i.note || '—'}</td>
             <td data-label="একশন"><div class="action-btns"><button class="btn-icon btn-delete" onclick="confirmDelete('${i.id}', 'id')"><i class="fas fa-trash"></i></button></div></td>
           </tr>
         `).join('');
@@ -1360,7 +1333,6 @@
         isPayment: true
       };
       
-      // Auto Add Income Feature: if daily accounts is requested to integrate with due payment
       const newDailyIncome = {
         id: 'daily_' + Date.now() + '_auto',
         type: 'dailyAccount',
@@ -1569,7 +1541,10 @@
           <li style="padding:16px 0;border-bottom:1px solid var(--border);">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
               <strong style="font-size:14px;color:var(--text-secondary);">${a.date}</strong>
-              <button class="btn-icon btn-delete" style="width:28px;height:28px;font-size:12px;background:var(--danger);" onclick="confirmDelete('${a.id}', 'dailyAccount')"><i class="fas fa-trash"></i></button>
+              <div style="display:flex;gap:6px;">
+                <button class="btn-icon btn-edit" style="width:28px;height:28px;font-size:12px;" onclick="openDailyEdit('${a.id}')"><i class="fas fa-pen"></i></button>
+                <button class="btn-icon btn-delete" style="width:28px;height:28px;font-size:12px;background:var(--danger);" onclick="confirmDelete('${a.id}', 'dailyAccount')"><i class="fas fa-trash"></i></button>
+              </div>
             </div>
             <div style="font-size:15px;color:var(--text);margin-bottom:8px;font-weight:500;">
               ${a.note || 'কোনো নোট নেই'}
@@ -1639,6 +1614,45 @@
         renderDailyAll();
       }
       btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> হিসাব সেভ করুন';
+    });
+
+    // ===== EDIT DAILY ACCOUNTS =====
+    window.openDailyEdit = function(id) {
+      const a = cloudData.find(d => d.id === id && d.type === 'dailyAccount');
+      if (!a) return;
+      document.getElementById('dailyEditId').value = a.id;
+      document.getElementById('dailyEditDate').value = a.date;
+      document.getElementById('dailyEditIncome').value = a.income || 0;
+      document.getElementById('dailyEditExpense').value = a.expense || 0;
+      document.getElementById('dailyEditNote').value = a.note || '';
+      document.getElementById('dailyEditModal').style.display = 'flex';
+    };
+
+    document.getElementById('saveDailyEditBtn').addEventListener('click', async function() {
+      const id = document.getElementById('dailyEditId').value;
+      const date = document.getElementById('dailyEditDate').value;
+      const income = parseFloat(document.getElementById('dailyEditIncome').value) || 0;
+      const expense = parseFloat(document.getElementById('dailyEditExpense').value) || 0;
+      const note = document.getElementById('dailyEditNote').value.trim();
+
+      if (!date) { showToast('তারিখ প্রয়োজন', 'error'); return; }
+
+      const updated = cloudData.map(d => {
+        if (d.id === id && d.type === 'dailyAccount') {
+          return { ...d, date, income, expense, note };
+        }
+        return d;
+      });
+
+      const btn = document.getElementById('saveDailyEditBtn');
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>...';
+      if (await syncWithGitHub(updated, `Update Daily Account`)) {
+        showToast('হিসাব আপডেট হয়েছে!');
+        document.getElementById('dailyEditModal').style.display = 'none';
+        renderDailyAll();
+        updateDashboard();
+      }
+      btn.innerHTML = '<i class="fas fa-save"></i> আপডেট';
     });
 
 
@@ -1717,7 +1731,6 @@
         if (nav === 'dashboard') { document.getElementById('dashboardStats').scrollIntoView({ behavior: 'smooth' }); document.querySelector('.tab-btn[data-tab="tabMeter"]')?.click(); }
         else if (nav === 'meter') { document.querySelector('.tab-btn[data-tab="tabMeter"]')?.click(); }
         else if (nav === 'company') { document.querySelector('.tab-btn[data-tab="tabCompany"]')?.click(); }
-        else if (nav === 'bkash') { document.querySelector('.tab-btn[data-tab="tabBkash"]')?.click(); }
         else if (nav === 'daily') { document.querySelector('.tab-btn[data-tab="tabDaily"]')?.click(); }
         else if (nav === 'settings') { document.getElementById('settingsBtn').click(); }
       });
@@ -1735,7 +1748,6 @@
         fabMenu.classList.remove('open'); fabBtn.innerHTML = '<i class="fas fa-plus"></i>';
         if (target === 'meter') document.querySelector('.tab-btn[data-tab="tabMeter"]')?.click();
         else if (target === 'company') document.querySelector('.tab-btn[data-tab="tabCompany"]')?.click();
-        else if (target === 'bkash') document.querySelector('.tab-btn[data-tab="tabBkash"]')?.click();
         else if (target === 'daily') document.querySelector('.tab-btn[data-tab="tabDaily"]')?.click();
         
         document.getElementById('tabDatabase')?.classList.remove('active');
@@ -1788,18 +1800,8 @@
       btn.disabled = false; btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> কোম্পানি সেভ করুন';
     });
 
-    document.getElementById('bkashDate').valueAsDate = new Date();
     document.getElementById('dueTxDate').valueAsDate = new Date();
     document.getElementById('dailyDate').valueAsDate = new Date();
-
-    document.getElementById('bkashForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById('submitBkashBtn');
-      btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> সেভ...';
-      const newItem = { id: 'bkash_' + Date.now(), type: 'bkash', date: document.getElementById('bkashDate').value, srGiven: document.getElementById('bkashIn').value || 0, srTaken: document.getElementById('bkashOut').value || 0, customerTx: document.getElementById('bkashCus').value || 0, note: document.getElementById('bkashNote').value.trim() };
-      if (await syncWithGitHub([...cloudData, newItem], `Add bKash Tx: ${newItem.date}`)) { showToast('লেনদেন সেভ হয়েছে!'); document.getElementById('bkashIn').value = '0'; document.getElementById('bkashOut').value = '0'; document.getElementById('bkashCus').value = '0'; document.getElementById('bkashNote').value = ''; }
-      btn.disabled = false; btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> লেনদেন সেভ করুন';
-    });
 
     window.openEditMeter = function(meter) {
       const item = cloudData.find(d => (!d.type || d.type === 'meter') && d.meter === meter);
