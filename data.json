@@ -201,7 +201,7 @@
     "type": "dailyAccount",
     "date": "2026-07-27",
     "income": 2800,
-    "expense": 0,
+    "expense": 1000,
     "note": "",
     "createdAt": "2026-07-27T14:41:16.402Z"
   }
