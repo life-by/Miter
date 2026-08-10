@@ -350,5 +350,14 @@
     "companyName": "রাধুনি",
     "srName": "মসল্লা",
     "phone": "01580705552"
+  },
+  {
+    "id": "daily_1786376490484",
+    "type": "dailyAccount",
+    "date": "2026-08-10",
+    "income": 1600,
+    "expense": 0,
+    "note": "",
+    "createdAt": "2026-08-10T15:41:30.485Z"
   }
 ]
