@@ -336,5 +336,12 @@
     "companyName": "ডিম",
     "srName": "রবিউল",
     "phone": "01915526310"
+  },
+  {
+    "id": "comp_1786372933046",
+    "type": "company",
+    "companyName": "বিসকিট",
+    "srName": "চকোফান",
+    "phone": "01811820734"
   }
 ]
