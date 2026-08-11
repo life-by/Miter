@@ -366,5 +366,14 @@
     "companyName": "নাজমুল(প্রান)",
     "srName": "জিরো পটেটো",
     "phone": "01566088956"
+  },
+  {
+    "id": "daily_1786458462828",
+    "type": "dailyAccount",
+    "date": "2026-08-11",
+    "income": 1500,
+    "expense": 0,
+    "note": "",
+    "createdAt": "2026-08-11T14:27:42.828Z"
   }
 ]
