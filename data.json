@@ -429,5 +429,14 @@
     "expense": 0,
     "note": "",
     "createdAt": "2026-08-18T15:30:50.226Z"
+  },
+  {
+    "id": "daily_1787152837305",
+    "type": "dailyAccount",
+    "date": "2026-08-19",
+    "income": 0,
+    "expense": 11000,
+    "note": "",
+    "createdAt": "2026-08-19T15:20:37.305Z"
   }
 ]
