@@ -474,5 +474,12 @@
     "expense": 0,
     "note": "",
     "createdAt": "2026-08-23T17:20:51.584Z"
+  },
+  {
+    "id": "comp_1787668566193",
+    "type": "company",
+    "companyName": "বম্বে সুইট",
+    "srName": "পটেটো",
+    "phone": "01708127865"
   }
 ]
