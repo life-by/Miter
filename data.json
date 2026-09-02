@@ -509,5 +509,12 @@
     "companyName": "কোকোলা",
     "srName": "নুডুস",
     "phone": "01775082050"
+  },
+  {
+    "id": "comp_1788321370587",
+    "type": "company",
+    "companyName": "হক",
+    "srName": "এনার্জ বিস্কুট",
+    "phone": "01962342312"
   }
 ]
