@@ -502,5 +502,12 @@
     "companyName": "মিল্কি",
     "srName": "বাদশা",
     "phone": "01997258444"
+  },
+  {
+    "id": "comp_1788319118764",
+    "type": "company",
+    "companyName": "কোকোলা",
+    "srName": "নুডুস",
+    "phone": "01775082050"
   }
 ]
