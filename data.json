@@ -551,5 +551,12 @@
     "companyName": "মেক্স কোলা",
     "srName": "আরসি",
     "phone": "01906705102"
+  },
+  {
+    "id": "comp_1789735126174",
+    "type": "company",
+    "companyName": "পলিথিন",
+    "srName": "পলি",
+    "phone": "01727666266"
   }
 ]
