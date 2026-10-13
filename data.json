@@ -607,5 +607,12 @@
     "companyName": "বাংলালিং",
     "srName": "এসআর",
     "phone": "01935588940"
+  },
+  {
+    "id": "comp_1791897749413",
+    "type": "company",
+    "companyName": "মেগি-নুডুস",
+    "srName": "নুডুস",
+    "phone": "01712996187"
   }
 ]
