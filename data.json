@@ -586,5 +586,12 @@
     "companyName": "প্রাম",
     "srName": "পানি",
     "phone": "01345377422"
+  },
+  {
+    "id": "comp_1791897552143",
+    "type": "company",
+    "companyName": "ফাইটার কিং",
+    "srName": "গোলোব",
+    "phone": "01908631580"
   }
 ]
